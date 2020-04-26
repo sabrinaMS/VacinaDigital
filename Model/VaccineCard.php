@@ -1,5 +1,5 @@
 <?php
-class Vaccine{
+class VaccineCard{
     public $id;
     public $vaccine; //id_vaccine
     public $date;

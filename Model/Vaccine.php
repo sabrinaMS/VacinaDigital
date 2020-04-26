@@ -3,16 +3,14 @@ class Vaccine{
     public $id;
     public $name;
     public $lot;
-    public $bestBefore;
+    public $expDate;
 
-
-    function __construct($id, $name, $lot, $bestBefore){
+    function __construct($id, $name, $lot, $expDate){
         $this->id = $id;
         $this->name = $name;
         $this->lot = $lot;
-        $this->bestBefore = $bestBefore;
+        $this->expDate = $expDate;
     }
-
 }
 
 ?>
