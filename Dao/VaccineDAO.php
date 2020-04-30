@@ -5,6 +5,7 @@ include_once 'PDOFactory.php';
 class VaccineDAO{
     public function insert(Vaccine $vaccine){
         $qInsert = "INSERT INTO vaccine(name, lot, expDate) VALUES (:name,:lot,:expDate)";
+        $pdo = PDOFactory::getConexao();
         $comando = $pdo->prepare($qInserir);
             $comando->bindParam(":name",$vaccine->name);
             $comando->bindParam(":lot",$vaccine->lot);
@@ -56,6 +57,16 @@ class VaccineDAO{
         $comando->bindParam(":id",$id);
         $comando->execute();
         return $vaccine;
+    }
+
+    public function getAmountInStock($vaccine){
+        $qGetTotal = "SELECT sum(amountInStock) FROM vaccineLot JOIN Vaccine ON vaccine.id = vaccineLot.vaccineId WHERE id = :id";
+        $pdo = PDOFactory::getConexao();
+        $comando = $pdo->prepare($qDelete);
+        $comando->bindParam(":id",$vaccine->id);
+        $comando->execute();
+        $result = $comando->fetch(PDO::FETCH_OBJ);
+        return $result;
     }
 }
 ?>
