@@ -2,31 +2,24 @@
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Factory\AppFactory;
+use Slim\Routing\RouteCollectorProxy;
 
-require "Model/VaccineDAO.php";
+require_once "Controller/VaccineController.php";
 
 require __DIR__ . '/vendor/autoload.php';
 
 $app = AppFactory::create();
 
 $app->addBodyParsingMiddleware();
-//return a list of vaccines
-$app->get('/api/vaccines', function (Request $request, Response $response, array $args) {
-    $vaccineDAO = new VaccineDAO;    
-    $vaccineList = $vaccineDAO->list();
-    //retornar codigo HTTP 200
-    return $response->withJson($vaccineList);
+
+$app->group('/api/vacinas', function (RouteCollectorProxy $group) {
+    $group->post('[/]', 'VaccineController:insert');
+    $group->get('[/]', 'VaccineController:list');  
+    $group->get('/{id:[0-9]+}', 'VaccineController:listById');
+    $group->put('/{id:[0-9]+}', 'VaccineController:update');
+    $group->delete('/{id:[0-9]+}', 'VaccineController:delete');
 });
 
-//return a vaccine by Id
-$app->get('/api/vaccines/{id}', function (Request $request, Response $response, array $args) {
-    $id = $args['id'];
-    
-    $vaccineDAO= new ProdutoDAO;    
-    $vaccine = $vaccineDAO->searchById($id);
-    //retornar codigo HTTP 200    
-    return $response->withJson($vaccine)->setStatus(200);
-});
 
 $app->run();
 ?>
