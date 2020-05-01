@@ -4,12 +4,10 @@ include_once 'PDOFactory.php';
 
 class VaccineDAO{
     public function insert(Vaccine $vaccine){
-        $qInsert = "INSERT INTO vaccine(name, lot, expDate) VALUES (:name,:lot,:expDate)";
+        $qInsert = "INSERT INTO vaccine(name) VALUES (:name)";
         $pdo = PDOFactory::getConexao();
         $comando = $pdo->prepare($qInserir);
             $comando->bindParam(":name",$vaccine->name);
-            $comando->bindParam(":lot",$vaccine->lot);
-            $comando->bindParam(":expDate",$vaccine->expDate);
             $comando->execute();
             $vaccine->id = $pdo->lastInsertId();
             return $vaccine;
@@ -22,7 +20,7 @@ class VaccineDAO{
         $comando->execute();
         $vaccines=array();	
         while($row = $comando->fetch(PDO::FETCH_OBJ)){
-            $vaccines[] = new Vaccine($row->id_vaccine, $row->name, $row->lot, $row->expDate);
+            $vaccines[] = new Vaccine($row->id, $row->name);
         }
         return $vaccines;
     }
@@ -34,11 +32,11 @@ class VaccineDAO{
 		    $comando->bindParam (':id', $id);
 		    $comando->execute();
 		    $result = $comando->fetch(PDO::FETCH_OBJ);
-		    return new Vaccine($result->id,$result->name,$result->lot, $result->expDate);           
+		    return new Vaccine($result->id,$result->name);           
         }
 
     public function update(Vaccine $vaccine){
-        $qUpdate = "UPDATE vaccine SET name=:name, lot=:lot, expDate=:expDate WHERE id_vaccine=:id";            
+        $qUpdate = "UPDATE vaccine SET name=:name WHERE id_vaccine=:id";            
         $pdo = PDOFactory::getConexao();
         $comando = $pdo->prepare($qUpdate);
         $comando->bindParam(":name",$vaccine->name);
@@ -62,7 +60,7 @@ class VaccineDAO{
     public function getAmountInStock($vaccine){
         $qGetTotal = "SELECT sum(amountInStock) FROM vaccineLot JOIN Vaccine ON vaccine.id = vaccineLot.vaccineId WHERE id = :id";
         $pdo = PDOFactory::getConexao();
-        $comando = $pdo->prepare($qDelete);
+        $comando = $pdo->prepare($qGetTotal);
         $comando->bindParam(":id",$vaccine->id);
         $comando->execute();
         $result = $comando->fetch(PDO::FETCH_OBJ);
