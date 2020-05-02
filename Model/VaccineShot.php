@@ -4,18 +4,18 @@ require_once "VaccineLot.php";
 
 class VaccineShot{
     public $id;
-    public $lot; //VaccineLot object
+    public $lotNumber; //VaccineLot object
     public $nurse; //Nurse object
+    public $patient; //Patient object
     public $date;
 
-
-    function __construct($id, $lot, $nurse, $date){
+    function __construct($id, $lotNumber, $nurse, $date){
         $this->id = $id;
-        $this->lot = $lot;
+        $this->lotNumber = $lotNumber;
         $this->nurse = $nurse;
+        $this->patient = $patient;
         $this->date = $date;
     }
-
 }
 
 ?>

@@ -31,7 +31,7 @@ class NurseDAO{
         $query = 'SELECT * FROM nurse WHERE id=:id';		
         $pdo = PDOFactory::getConexao(); 
         $comando = $pdo->prepare($query);
-        $comando->bindParam (':id', $id);
+        $comando->bindParam(':id', $id);
         $comando->execute();
         $result = $comando->fetch(PDO::FETCH_OBJ);
         return new Nurse($result->id,$result->name, $result->coren, $result->password);           

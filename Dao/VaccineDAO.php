@@ -29,7 +29,7 @@ class VaccineDAO{
  		    $query = 'SELECT * FROM vaccine WHERE id=:id';		
             $pdo = PDOFactory::getConexao(); 
 		    $comando = $pdo->prepare($query);
-		    $comando->bindParam (':id', $id);
+		    $comando->bindParam(':id', $id);
 		    $comando->execute();
 		    $result = $comando->fetch(PDO::FETCH_OBJ);
 		    return new Vaccine($result->id,$result->name, $this->getQuantityInStock($result->id));           

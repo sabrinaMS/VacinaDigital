@@ -47,7 +47,7 @@ CREATE TABLE `patient` (
   `name` varchar(200) NOT NULL,
   `birthdate` date NOT NULL,
   `phone` varchar(50) NOT NULL,
-  `email` varchar(200) NOT NULL UNIQUE,
+  `email` varchar(50) NOT NULL UNIQUE,
   `password` varchar(50) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
