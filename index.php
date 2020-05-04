@@ -8,6 +8,7 @@ require_once "Controller/VaccineController.php";
 require_once "Controller/NurseController.php";
 require_once "Controller/PatientController.php";
 require_once "Controller/VaccineLotController.php";
+require_once "Controller/VaccineShotController.php";
 
 require __DIR__ . '/vendor/autoload.php';
 
@@ -48,6 +49,15 @@ $app->group('/api/lotesvacina', function (RouteCollectorProxy $group) {
     $group->get('/{id:[0-9]+}', 'VaccineLotController:listById');
     $group->put('/{id:[0-9]+}', 'VaccineLotController:update');
     $group->delete('/{id:[0-9]+}', 'VaccineLotController:delete');
+});
+
+$app->group('/api/vacinacoes', function (RouteCollectorProxy $group) {
+    $group->post('[/]', 'VaccineShotController:insert');
+    $group->get('[/]', 'VaccineShotController:list');  
+    $group->get('/{id:[0-9]+}', 'VaccineShotController:listById');
+    $group->get('/paciente/{id:[0-9]+}', 'VaccineShotController:listByPatient');
+    $group->put('/{id:[0-9]+}', 'VaccineShotController:update');
+    $group->delete('/{id:[0-9]+}', 'VaccineShotController:delete');
 });
 
 

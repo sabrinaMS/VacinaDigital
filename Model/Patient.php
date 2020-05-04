@@ -10,14 +10,16 @@ class Patient{
     public $email;
     public $password;
 
-    function __construct($id, $name, $birthDate, $vaccineShots, $phoneNumber, $email, $password){
+    function __construct($id, $name, $birthDate, $phoneNumber, $email, $password, $vaccineShots = null){
         $this->id = $id;
         $this->name = $name;
         $this->birthDate = $birthDate;
-        $this->$vaccineShots = $vaccineShots;
         $this->phoneNumber = $phoneNumber;
         $this->email = $email;
         $this->password = $password;
+        if (isset($vaccineShots)){
+            $this->vaccineShots = $vaccineShots;
+        }
     }
 
 }

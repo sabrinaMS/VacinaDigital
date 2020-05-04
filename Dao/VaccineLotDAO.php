@@ -40,7 +40,7 @@ class VaccineLotDAO{
 		    $comando->execute();
             $result = $comando->fetch(PDO::FETCH_OBJ);
             $vaccineDAO = new VaccineDAO();
-		    return new VaccineLot($row->id, $row->lotNumber, $row->expDate, $row->quantity, $vaccineDAO->listById($row->vaccine_id));           
+		    return new VaccineLot($result->id, $result->lotNumber, $result->expDate, $result->quantity, $vaccineDAO->listById($result->vaccine_id));           
         }
 
     public function update(VaccineLot $vaccineLot){

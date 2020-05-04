@@ -2,6 +2,7 @@
 include_once 'Model/Patient.php';
 include_once 'Model/PDOFactory.php';
 include_once 'Model/VaccineShot.php';
+include_once 'Dao/VaccineShotDAO.php';
 
 class PatientDAO{
     public function insert(Patient $patient){
@@ -25,15 +26,16 @@ class PatientDAO{
         $comando = $pdo->prepare($query);
         $comando->execute();
         $patients=array();	
+        $vaccineShotDAO = new VaccineShotDAO();
         while($row = $comando->fetch(PDO::FETCH_OBJ)){
             //buscar vacinas tomadas
             $patients[] = new Patient($row->id,
                 $row->name,
-                $row->birthDate,
-                getTakenShots($row->id),
+                $row->birthdate,
                 $row->phone,
                 $row->email,
-                $row->password);
+                $row->password,
+                $vaccineShotDAO->listByPatient($row->id));
         }
         return $patients;
     }
@@ -44,14 +46,31 @@ class PatientDAO{
 		    $comando = $pdo->prepare($query);
 		    $comando->bindParam(':id', $id);
 		    $comando->execute();
-		    $result = $comando->fetch(PDO::FETCH_OBJ);
-		    return new Patient($row->id,
-                $row->name,
-                $row->birthDate,
-                getTakenShots($row->id),
-                $row->phone,
-                $row->email,
-                $row->password);           
+            $result = $comando->fetch(PDO::FETCH_OBJ);
+            $vaccineShotDAO = new VaccineShotDAO();
+		    return new Patient($result->id,
+                $result->name,
+                $result->birthdate,
+                $result->phone,
+                $result->email,
+                $result->password,           
+                $vaccineShotDAO->listByPatient($result->id));
+        }
+
+    public function listByShot($id){
+ 		    $query = 'SELECT * FROM patient JOIN vaccineshot ON patient.id = vaccineshot.patient_id  WHERE vaccineshot.id=:id';		
+            $pdo = PDOFactory::getConexao(); 
+		    $comando = $pdo->prepare($query);
+		    $comando->bindParam(':id', $id);
+		    $comando->execute();
+            $result = $comando->fetch(PDO::FETCH_OBJ);
+            $vaccineShotDAO = new VaccineShotDAO();
+		    return new Patient($result->id,
+                $result->name,
+                $result->birthdate,
+                $result->phone,
+                $result->email,
+                $result->password);
         }
 
     public function update(Patient $patient){
@@ -74,21 +93,6 @@ class PatientDAO{
         $comando = $pdo->prepare($qDelete);
         $comando->bindParam(":id",$id);
         $comando->execute();
-    }
-    
-    // MOVE TO VaccineShotDAO!
-    public function getTakenShots($patientId){
-        $qGetShots = "SELECT * FROM vaccineshot WHERE patient_id = :patientId";
-        $shotsTaken = 
-        $pdo = PDOFactory::getConexao();
-        $comando = $pdo->prepare($query);
-        $comando->execute();
-        $shotsTaken = array();	
-
-        while($row = $comando->fetch(PDO::FETCH_OBJ)){
-            $shotsTaken[] = new VaccineShot($row->id, $row->lot, $row->nurse, $row->patient, $row->date);
-        }
-        return $patients;
     }
 }
 ?>

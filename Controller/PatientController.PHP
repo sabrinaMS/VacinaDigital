@@ -10,10 +10,10 @@ class PatientController{
         $data = $request->getParsedBody();
         $patient = new Patient(0, $data["name"],
                         $data["birthDate"], 
-                        "",
                         $data["phoneNumber"],
                         $data["email"],
-                        $data["password"]);
+                        $data["password"],
+                        "");
         $patient = $dao->insert($patient);
         $patientJSON = json_encode($patient);
         
@@ -50,12 +50,12 @@ class PatientController{
         $dao = new PatientDAO();
         $id = $args["id"];
         $data = $request->getParsedBody();
-        $patient = new Patient(0, $data["name"],
+        $patient = new Patient($id, $data["name"],
                         $data["birthDate"],
-                        array(),
                         $data["phoneNumber"],
                         $data["email"],
-                        $data["password"]);
+                        $data["password"],
+                        array());
         $patient = $dao->update($patient);
         $patientJSON = json_encode($patient);
         
