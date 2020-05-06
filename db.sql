@@ -99,4 +99,11 @@ CREATE TABLE `vaccineshot` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 
+--Estrutura de tabela 'user'
 
+CREATE TABLE `user` (
+  `id` INT NOT NULL AUTO_INCREMENT ,
+  `email` VARCHAR(40) NOT NULL ,
+  `password` VARCHAR(40) NOT NULL ,
+  PRIMARY KEY (`id`)
+) ENGINE = InnoDB;

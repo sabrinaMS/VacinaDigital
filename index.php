@@ -1,6 +1,7 @@
 <?php
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
+
 use Slim\Factory\AppFactory;
 use Slim\Routing\RouteCollectorProxy;
 
@@ -9,12 +10,21 @@ require_once "Controller/NurseController.php";
 require_once "Controller/PatientController.php";
 require_once "Controller/VaccineLotController.php";
 require_once "Controller/VaccineShotController.php";
+require_once "Controller/UserController.php";
 
 require __DIR__ . '/vendor/autoload.php';
 
 $app = AppFactory::create();
 
 $app->addBodyParsingMiddleware();
+
+//$app->post('/api/usuarios','UserController:insert');
+
+$app->group('/api/usuarios', function (RouteCollectorProxy $group){
+    $group->post('[/]','UserController:insert');
+});
+
+$app->post('/api/auth','UserController:authenticate');
 
 $app->group('/api/vacinas', function (RouteCollectorProxy $group) {
     $group->post('[/]', 'VaccineController:insert');
@@ -40,7 +50,7 @@ $app->group('/api/pacientes', function (RouteCollectorProxy $group) {
     $group->get('/{id:[0-9]+}', 'PatientController:listById');
     $group->put('/{id:[0-9]+}', 'PatientController:update');
     $group->delete('/{id:[0-9]+}', 'PatientController:delete');
-});
+})->add('UserController:validateToken');
 
 $app->group('/api/lotesvacina', function (RouteCollectorProxy $group) {
     $group->post('[/]', 'VaccineLotController:insert');
