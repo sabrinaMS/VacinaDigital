@@ -14,15 +14,36 @@ class VaccineLotController{
                     $data["expDate"],
                     $data["quantity"],
                     $vaccineDAO->listById($data["vaccineId"]));
-                    //var_dump($data, $vaccineDAO->listById($data["vaccineId"]));
-                    //die;
-        $vaccineLot = $dao->insert($vaccineLot);
-        $vaccineLotJSON = json_encode($vaccineLot);
-        
-        $response->getbody()->write($vaccineLotJSON);
-        return $response
-            ->withHeader('Content-Type', 'application/json')
-            ->withStatus(201);
+        try {
+            $vaccineLot = $dao->insert($vaccineLot);
+            $vaccineLotJSON = json_encode($vaccineLot);
+            
+            $response->getbody()->write($vaccineLotJSON);
+            return $response
+                ->withHeader('Content-Type', 'application/json')
+                ->withStatus(201);
+        } catch (\Exception $th) {
+            switch ($th->errorInfo[1]) {
+                case 1048:
+                    $response->getbody()->write("Id de vacina não existente");
+                    return $response
+                        ->withHeader('Content-Type', 'application/json')
+                        ->withStatus(500);
+                    break;
+                case 1062:
+                    $response->getbody()->write("Número de lote já cadastrado");
+                    return $response
+                        ->withHeader('Content-Type', 'application/json')
+                        ->withStatus(409);
+                    break;
+                default:
+                    $response->getbody()->write("Erro Desconhecido");
+                    return $response
+                        ->withHeader('Content-Type', 'application/json')
+                        ->withStatus(500);
+                    break;
+            }
+        }               
     }
     
     public function list(Request $request, Response $response, array $args){
@@ -40,13 +61,19 @@ class VaccineLotController{
         $dao = new VaccineLotDAO();
         $id = $args["id"];
         $vaccineLot = $dao->listById($id);
+
+        if ($vaccineLot === null){
+            return $response
+            ->withHeader('Content-Type', 'application/json')
+            ->withStatus(404); 
+        }
         $vaccineLotJSON = json_encode($vaccineLot);
         
         $response->getbody()->write($vaccineLotJSON);
         return $response
             ->withHeader('Content-Type', 'application/json')
             ->withStatus(200); 
-        }
+    }
         
     public function update(Request $request, Response $response, array $args){
         $dao = new VaccineLotDAO();
@@ -56,11 +83,9 @@ class VaccineLotController{
         $vaccineLot = new VaccineLot(0, $data["lotNumber"],
                     $data["expDate"],
                     $data["quantity"],
-                    $vaccineDAO->listById($data["vaccineId"]));
-        $vaccineLot = $dao->update($vaccineLot);
-        $vaccineLotJSON = json_encode($vaccineLot);
-        
-        $response->getbody()->write($vaccineLotJSON);
+                    $vaccineDAO->listById($data["vaccine_id"]));
+        $dao->update($vaccineLot);
+    
         return $response
             ->withHeader('Content-Type', 'application/json')
             ->withStatus(200); 
@@ -69,12 +94,15 @@ class VaccineLotController{
     public function delete(Request $request, Response $response, array $args){
         $dao = new VaccineLotDAO();
         $id = $args['id'];
-        $vaccineLot = $dao->delete($id);
-        $vaccineLotJSON = json_encode($vaccineLot);
         
-        return $response
+        if ($dao->delete($id)){
+            return $response
             ->withHeader('Content-Type', 'application/json')
             ->withStatus(200); 
+        }
+        return $response
+        ->withHeader('Content-Type', 'application/json')
+        ->withStatus(404); 
     }
 }
 

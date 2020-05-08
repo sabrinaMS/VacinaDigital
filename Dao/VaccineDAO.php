@@ -31,8 +31,11 @@ class VaccineDAO{
 		    $comando = $pdo->prepare($query);
 		    $comando->bindParam(':id', $id);
 		    $comando->execute();
-		    $result = $comando->fetch(PDO::FETCH_OBJ);
-		    return new Vaccine($result->id,$result->name, $this->getQuantityInStock($result->id));           
+            $result = $comando->fetch(PDO::FETCH_OBJ);
+            // if (!$result){
+            //     throw new Exception("Vacina não encontrada");
+            // }
+            return new Vaccine($result->id,$result->name, $this->getQuantityInStock($result->id));            
         }
 
     public function update(Vaccine $vaccine){

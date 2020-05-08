@@ -37,8 +37,12 @@ class VaccineLotDAO{
             $pdo = PDOFactory::getConexao(); 
 		    $comando = $pdo->prepare($query);
             $comando->bindParam(':id', $id);
-		    $comando->execute();
+            $comando->execute();
             $result = $comando->fetch(PDO::FETCH_OBJ);
+            //if the result is ok, return a vaccine
+            if (!$result){
+                return null;
+            }
             $vaccineDAO = new VaccineDAO();
 		    return new VaccineLot($result->id, $result->lotNumber, $result->expDate, $result->quantity, $vaccineDAO->listById($result->vaccine_id));           
         }
@@ -52,17 +56,20 @@ class VaccineLotDAO{
         $comando->bindParam(":expDate",$vaccineLot->expDate);
         $comando->bindParam(":quantity",$vaccineLot->quantity);
         $comando->bindParam(":vaccine_id",$vaccineLot->vaccine->id);
-        $comando->execute();    
-        return($vaccine);    
+        $comando->execute();  
     }
 
     public function delete($id){ // TREAT FOR INTEGRITY CONSTRAINT ERRORS IN FUTURE
         $qDelete = "DELETE from vaccinelot WHERE id=:id";            
-        $vaccineLot = $this->listById($id);
         $pdo = PDOFactory::getConexao();
         $comando = $pdo->prepare($qDelete);
         $comando->bindParam(":id",$id);
         $comando->execute();
+        //if there isn`t anything in the row(no deletes), return false
+        if ($comando->rowCount() === 0){
+            return false;
+        } 
+        return true;
     }
 }
 ?>
