@@ -83,7 +83,6 @@ class PatientDAO{
         $comando->bindParam(":phoneNumber",$patient->phoneNumber);
         $comando->bindParam(":email",$patient->email);
         $comando->execute();    
-        return($patient);    
     }
 
     public function delete($id){ // TREAT FOR INTEGRITY CONSTRAINT ERRORS IN FUTURE

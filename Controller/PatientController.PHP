@@ -56,10 +56,8 @@ class PatientController{
                         $data["email"],
                         $data["password"],
                         array());
-        $patient = $dao->update($patient);
-        $patientJSON = json_encode($patient);
-        
-        $response->getbody()->write($patientJSON);
+        $dao->update($patient);
+
         return $response
             ->withHeader('Content-Type', 'application/json')
             ->withStatus(200); 
