@@ -41,13 +41,16 @@ class VaccineLotDAO{
             $result = $comando->fetch(PDO::FETCH_OBJ);
             //if the result is ok, return a vaccine
             if (!$result){
-                return null;
+                $e = new PDOException("Não foi possível encontrar um lote com id $id", 23000);
+                $e->errorInfo = array(23000, 9999, "Não foi possível encontrar um lote com id $id");
+                throw $e;
             }
             $vaccineDAO = new VaccineDAO();
 		    return new VaccineLot($result->id, $result->lotNumber, $result->expDate, $result->quantity, $vaccineDAO->listById($result->vaccine_id));           
         }
 
     public function update(VaccineLot $vaccineLot){
+        $this->listById($vaccineLot->id); //checks id lot exists
         $qUpdate = "UPDATE vaccinelot SET lotNumber =:lotNumber, expDate =:expDate, quantity =:quantity, vaccine_id =:vaccine_id WHERE id=:id";            
         $pdo = PDOFactory::getConexao();
         $comando = $pdo->prepare($qUpdate);
@@ -56,20 +59,19 @@ class VaccineLotDAO{
         $comando->bindParam(":expDate",$vaccineLot->expDate);
         $comando->bindParam(":quantity",$vaccineLot->quantity);
         $comando->bindParam(":vaccine_id",$vaccineLot->vaccine->id);
-        $comando->execute();  
+        $comando->execute();
+        return $vaccineLot;
     }
 
-    public function delete($id){ // TREAT FOR INTEGRITY CONSTRAINT ERRORS IN FUTURE
+    public function delete($id){ 
         $qDelete = "DELETE from vaccinelot WHERE id=:id";            
         $pdo = PDOFactory::getConexao();
+        $vaccineLot = $this->listById($id);
         $comando = $pdo->prepare($qDelete);
         $comando->bindParam(":id",$id);
         $comando->execute();
-        //if there isn`t anything in the row(no deletes), return false
-        if ($comando->rowCount() === 0){
-            return false;
-        } 
-        return true;
+        return $vaccineLot;
+
     }
 }
 ?>

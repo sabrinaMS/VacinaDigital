@@ -34,6 +34,11 @@ class NurseDAO{
         $comando->bindParam(':id', $id);
         $comando->execute();
         $result = $comando->fetch(PDO::FETCH_OBJ);
+        if(!$result){
+            $e = new PDOException("Não foi possível encontrar um enfermeiro com id $id", 23000);
+            $e->errorInfo = array(23000, 9999, "Não foi possível encontrar um enfermeiro com id $id");
+            throw $e;
+        }
         return new Nurse($result->id,$result->name, $result->coren, $result->password);           
     }
 
@@ -44,10 +49,16 @@ class NurseDAO{
         $comando->bindParam (':coren', $coren);
         $comando->execute();
         $result = $comando->fetch(PDO::FETCH_OBJ);
+        if(!$result){
+            $e = new PDOException("Não foi possível encontrar um enfermeiro com coren $coren", 23000);
+            $e->errorInfo = array(23000, 9999, "Não foi possível encontrar um enfermeiro com coren $coren");
+            throw $e;
+        }
         return new Nurse($result->id,$result->name, $result->coren, $result->password);           
     }
 
     public function update(Nurse $nurse){
+        $this->listById($nurse->id); //checks if id exists
         $qUpdate = "UPDATE nurse SET name=:name, coren=:coren, password=:password WHERE id=:id";            
         $pdo = PDOFactory::getConexao();
         $comando = $pdo->prepare($qUpdate);
@@ -59,8 +70,8 @@ class NurseDAO{
         return($nurse);    
     }
 
-    public function delete($id){ // TREAT FOR INTEGRITY CONSTRAINT ERRORS IN FUTURE
-        $qDelete = "DELETE from nurse WHERE id=:id";            
+    public function delete($id){ 
+        $qDelete = "DELETE FROM nurse WHERE id=:id";            
         $nurse = $this->listById($id);
         $pdo = PDOFactory::getConexao();
         $comando = $pdo->prepare($qDelete);

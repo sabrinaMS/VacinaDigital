@@ -39,6 +39,11 @@ class VaccineShotDAO{
         $comando->bindParam(':id', $id);
         $comando->execute();
         $result = $comando->fetch(PDO::FETCH_OBJ);
+        if(!$result){
+            $e = new PDOException("Não foi possível encontrar uma vacinação com id $id", 23000);
+            $e->errorInfo = array(23000, 9999, "Não foi possível encontrar uma vacinação com id $id");
+            throw $e;
+        }
         $vaccineLotDAO = new VaccineLotDAO();
         $nurseDAO = new NurseDAO();
         $patientDAO = new PatientDAO();
@@ -67,6 +72,7 @@ class VaccineShotDAO{
     }
     
     public function update(VaccineShot $vaccineShot){
+        $this->listById($vaccineShot->id); //checks is shot exists
         $qUpdate = "UPDATE vaccineshot SET date =:date, vaccineLot_id =:vaccineLot_id, nurse_id =:nurse_id, patient_id =:patient_id WHERE id=:id";            
         $pdo = PDOFactory::getConexao();
         $comando = $pdo->prepare($qUpdate);

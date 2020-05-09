@@ -11,6 +11,7 @@ require_once "Controller/PatientController.php";
 require_once "Controller/VaccineLotController.php";
 require_once "Controller/VaccineShotController.php";
 require_once "Controller/UserController.php";
+require_once "Services/ExceptionHandler.php";
 
 require __DIR__ . '/vendor/autoload.php';
 
@@ -50,7 +51,8 @@ $app->group('/api/pacientes', function (RouteCollectorProxy $group) {
     $group->get('/{id:[0-9]+}', 'PatientController:listById');
     $group->put('/{id:[0-9]+}', 'PatientController:update');
     $group->delete('/{id:[0-9]+}', 'PatientController:delete');
-})->add('UserController:validateToken');
+})//->add('UserController:validateToken')
+;
 
 $app->group('/api/lotesvacina', function (RouteCollectorProxy $group) {
     $group->post('[/]', 'VaccineLotController:insert');
@@ -70,6 +72,26 @@ $app->group('/api/vacinacoes', function (RouteCollectorProxy $group) {
     $group->delete('/{id:[0-9]+}', 'VaccineShotController:delete');
 });
 
+
+// setting custom error handler
+$customErrorHandler = function (
+    Request $request,
+    Throwable $exception,
+    bool $displayErrorDetails,
+    bool $logErrors,
+    bool $logErrorDetails,
+    ?LoggerInterface $logger = null
+) use ($app) {
+    $errorData = ExceptionHandler::handle($exception);
+    $response = $app->getResponseFactory()->createResponse();
+    $response->getbody()->write(json_encode($errorData));
+            return $response
+                ->withHeader('Content-Type', 'application/json')
+                ->withStatus($errorData["status"]);
+};
+
+$errorMiddleware = $app->addErrorMiddleware(true, true, true);
+$errorMiddleware->setDefaultErrorHandler($customErrorHandler);
 
 $app->run();
 ?>

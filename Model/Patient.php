@@ -5,7 +5,6 @@ class Patient{
     public $id;
     public $name;
     public $birthDate;
-    public $vaccineShots; //list of vaccine type Vaccine Shot
     public $phoneNumber;
     public $email;
     public $password;
@@ -18,7 +17,7 @@ class Patient{
         $this->email = $email;
         $this->password = $password;
         if (isset($vaccineShots)){
-            $this->vaccineShots = $vaccineShots;
+            $this->vaccineShots = $vaccineShots; //list of VaccineShot objects
         }
     }
 

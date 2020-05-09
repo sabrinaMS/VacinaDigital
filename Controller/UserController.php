@@ -13,11 +13,20 @@
 
         public function insert(Request $request, Response $response) {
             $var = $request->getParsedBody();
+            $this->checkParameters($var);
 
             $user = new User(0, $var['email'], $var['password']);
             
-            $dao = new UserDAO;    
-            $user = $dao->insert($user);
+            $dao = new UserDAO;
+            try{
+                $user = $dao->insert($user);
+            }catch(Exception $th){
+                $errorData = ExceptionHandler::handle($th);
+                $response->getBody->write(json_encode($errorData));
+                return $response
+                ->withHeader('Content-Type', 'application/json')
+                ->withStatus($errorData["status"]);
+            }
         
             return $response->withJson($user,201);
         }
@@ -60,6 +69,23 @@
             }
             
             return $response->withStatus(401);
+        }
+
+        public function checkParameters($data){
+            $requestedParameters = ["email", "password"];
+            $undefinedParameters = array();
+            foreach($requestedParameters as $parameter){
+                if (!$data[$parameter]){
+                    $undefinedParameters[] = $parameter;
+                }
+            }
+    
+            if (count($undefinedParameters) > 0){
+                $message = "Campos '" . implode(", ", $undefinedParameters) . "' não podem ser nulos";
+                $e = new PDOException($message, 23000);
+                $e->errorInfo = array(23000, 1048, $message);
+                throw $e;
+            }
         }
     }
 

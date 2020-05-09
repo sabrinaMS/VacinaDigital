@@ -32,23 +32,26 @@ class VaccineDAO{
 		    $comando->bindParam(':id', $id);
 		    $comando->execute();
             $result = $comando->fetch(PDO::FETCH_OBJ);
-            // if (!$result){
-            //     throw new Exception("Vacina não encontrada");
-            // }
+            if(!$result){
+                $e = new PDOException("Não foi possível encontrar uma vacina com id $id", 23000);
+                $e->errorInfo = array(23000, 9999, "Não foi possível encontrar uma vacina com id $id");
+                throw $e;
+            }
             return new Vaccine($result->id,$result->name, $this->getQuantityInStock($result->id));            
         }
 
     public function update(Vaccine $vaccine){
-        $qUpdate = "UPDATE vaccine SET name=:name WHERE id=:id";            
+        $this->listById($vaccine->id); //checks if id exists            
+        $qUpdate = "UPDATE vaccine SET name=:name WHERE id=:id";
         $pdo = PDOFactory::getConexao();
         $comando = $pdo->prepare($qUpdate);
         $comando->bindParam(":name",$vaccine->name);
         $comando->bindParam(":id",$vaccine->id);
-        $comando->execute();    
+        $comando->execute();
         return($vaccine);    
     }
 
-    public function delete($id){ // TREAT FOR INTEGRITY CONSTRAINT ERRORS IN FUTURE
+    public function delete($id){
         $qDelete = "DELETE from vaccine WHERE id=:id";            
         $vaccine = $this->listById($id);
         $pdo = PDOFactory::getConexao();

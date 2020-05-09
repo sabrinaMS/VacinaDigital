@@ -47,6 +47,11 @@ class PatientDAO{
 		    $comando->bindParam(':id', $id);
 		    $comando->execute();
             $result = $comando->fetch(PDO::FETCH_OBJ);
+            if(!$result){
+                $e = new PDOException("Não foi possível encontrar um paciente com id $id", 23000);
+                $e->errorInfo = array(23000, 9999, "Não foi possível encontrar um paciente com id $id");
+                throw $e;
+            }
             $vaccineShotDAO = new VaccineShotDAO();
 		    return new Patient($result->id,
                 $result->name,
@@ -74,7 +79,8 @@ class PatientDAO{
         }
 
     public function update(Patient $patient){
-        $qUpdate = "UPDATE patient SET name = :name, birthdate = :birthDate, phone = :phoneNumber, email = :email WHERE id = :id";            
+        $this->listById($patient->id); //checks if id exists
+        $qUpdate = "UPDATE patient SET name = :name, birthdate = :birthDate, phone = :phoneNumber, email = :email, password = :password WHERE id = :id";            
         $pdo = PDOFactory::getConexao();
         $comando = $pdo->prepare($qUpdate);
         $comando->bindParam(":id",$patient->id);
@@ -85,13 +91,14 @@ class PatientDAO{
         $comando->execute();    
     }
 
-    public function delete($id){ // TREAT FOR INTEGRITY CONSTRAINT ERRORS IN FUTURE
+    public function delete($id){
         $qDelete = "DELETE from patient WHERE id =:id";            
         $patient = $this->listById($id);
         $pdo = PDOFactory::getConexao();
         $comando = $pdo->prepare($qDelete);
         $comando->bindParam(":id",$id);
         $comando->execute();
+        return $patient;
     }
 }
 ?>
