@@ -51,7 +51,7 @@ $app->group('/api/pacientes', function (RouteCollectorProxy $group) {
     $group->get('/{id:[0-9]+}', 'PatientController:listById');
     $group->put('/{id:[0-9]+}', 'PatientController:update');
     $group->delete('/{id:[0-9]+}', 'PatientController:delete');
-})//->add('UserController:validateToken')
+})->add('UserController:validateToken')
 ;
 
 $app->group('/api/lotesvacina', function (RouteCollectorProxy $group) {

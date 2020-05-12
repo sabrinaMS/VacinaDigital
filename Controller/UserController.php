@@ -18,15 +18,7 @@
             $user = new User(0, $var['email'], $var['password']);
             
             $dao = new UserDAO;
-            try{
-                $user = $dao->insert($user);
-            }catch(Exception $th){
-                $errorData = ExceptionHandler::handle($th);
-                $response->getBody->write(json_encode($errorData));
-                return $response
-                ->withHeader('Content-Type', 'application/json')
-                ->withStatus($errorData["status"]);
-            }
+            $user = $dao->insert($user);
         
             return $response->withJson($user,201);
         }
