@@ -1,0 +1,35 @@
+.col-md-3{
+    margin-top: 20px;
+}
+
+.vaccine-card {
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    border-radius: 20px;
+    height: 90px;
+    background-color: #D5E7FC;
+    padding: 20px;
+}
+
+.vaccine-card h5{
+    color: #5E5E5E;
+}
+
+.vaccine-card p {
+    text-align: end;
+    color: #95AADF;
+}
+
+p {
+    color: #6c757d;
+    margin-bottom: 3px;
+}
+
+.card {
+    margin-bottom: 20px;
+}
+
+@media only screen and (max-width: 1200px) {
+    .vaccine-card{
+        padding: 10px;
+    }
+}
