@@ -128,7 +128,7 @@ class PatientController {
         cardsDiv.innerHTML = patient;
 
 
-        const self = this;
+        //const self = this;
         const linkNovo = document.querySelector("#new");
         linkNovo.onclick = function(event) {
             self.produtoController.carregarFormulario(event);

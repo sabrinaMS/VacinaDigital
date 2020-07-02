@@ -1,12 +1,14 @@
 <?php
     use \Firebase\JWT\JWT;
-    use Slim\Psr7\Response;
+    use Slim\Psr7\Response as MiddlewareResponse;
 
-    //use Psr\Http\Message\ResponseInterface as Response;
+    use Psr\Http\Message\ResponseInterface as Response;
     use Psr\Http\Message\ServerRequestInterface as Request;
 
     include_once 'Model/User.php';
     include_once 'Dao/UserDAO.php';
+
+    use Slim\Exception\HttpUnauthorizedException as HttpUnauthorizedException;
 
     class UserController {
         private $secretKey = "ˆHbs!@hajvdj";
@@ -20,11 +22,12 @@
             $dao = new UserDAO;
             $user = $dao->insert($user);
         
-            return $response->withJson($user,201);
+            return $response->withJson($user,201, JSON_UNESCAPED_UNICODE);
         }
 
         public function authenticate(Request $request, Response $response) {
             $userFromRequest = $request->getParsedBody();
+            $this->checkParameters($userFromRequest);
             
             $dao= new UserDAO;    
             $user = $dao->listByEmail($userFromRequest['email']);
@@ -34,33 +37,33 @@
                     'email' => $user->email
                 );
                 $jwt = JWT::encode($token, $this->secretKey);
-                return $response->withJson(["token" => $jwt], 201)
+                return $response->withJson(["token" => $jwt], 201, JSON_UNESCAPED_UNICODE)
                     ->withHeader('Content-type', 'application/json');   
             }
             else
-                return $response->withStatus(401);
+                throw new HttpUnauthorizedException($request);
         }
         
         public function validateToken($request, $handler) {
-            $response = new Response();
+            $response = new MiddlewareResponse();
             $token = $request->getHeader('Authorization');
 
             if($token && $token[0])
             {
+                $decoded = null;
                 try {
-                    $decoded = JWT::decode($token[0], $this->secretKey, array('HS256'));
-
-                    if($decoded){
-                        $response = $handler->handle($request);
-                        return($response);
-                    }
+                    $decoded = JWT::decode($token[0], $this->secretKey, array('HS256'));      
                 } catch(Exception $error) {
+                    throw new HttpUnauthorizedException($request);
+                }
 
-                    return $response->withStatus(401);
+                if($decoded){
+                    $response = $handler->handle($request);
+                    return($response);
                 }
             }
             
-            return $response->withStatus(401);
+            throw new HttpUnauthorizedException($request);
         }
 
         public function checkParameters($data){
