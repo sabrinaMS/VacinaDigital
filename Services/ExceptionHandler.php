@@ -1,7 +1,7 @@
 <?php
 class ExceptionHandler{
     public static function handle(Throwable $e){
-        //print_r($e);
+        print_r($e);
         switch (get_class($e)){
             //HTTPExceptions
             case "Slim\Exception\HttpNotFoundException":

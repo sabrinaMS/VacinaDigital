@@ -1,8 +1,8 @@
 <?php
     use \Firebase\JWT\JWT;
-    use Slim\Psr7\Response as MiddlewareResponse;
+    use Slim\Psr7\Response;
 
-    use Psr\Http\Message\ResponseInterface as Response;
+    //use Psr\Http\Message\ResponseInterface as Response;
     use Psr\Http\Message\ServerRequestInterface as Request;
 
     include_once 'Model/User.php';
@@ -45,25 +45,26 @@
         }
         
         public function validateToken($request, $handler) {
-            $response = new MiddlewareResponse();
+            $response = new Response();
             $token = $request->getHeader('Authorization');
 
             if($token && $token[0])
             {
-                $decoded = null;
                 try {
-                    $decoded = JWT::decode($token[0], $this->secretKey, array('HS256'));      
-                } catch(Exception $error) {
-                    throw new HttpUnauthorizedException($request);
-                }
+                    $decoded = JWT::decode($token[0], $this->secretKey, array('HS256'));
 
-                if($decoded){
-                    $response = $handler->handle($request);
-                    return($response);
-                }
+                    if($decoded){
+                        $response = $handler->handle($request);
+                        return($response);
+                    }
+
+                } catch(Exception $error) {
+                    return $response->withStatus(401);
+                }    
             }
             
-            throw new HttpUnauthorizedException($request);
+            return $response->withStatus(401);
+
         }
 
         public function checkParameters($data){
