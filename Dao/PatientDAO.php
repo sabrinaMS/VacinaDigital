@@ -88,6 +88,7 @@ class PatientDAO{
         $comando->bindParam(":birthDate",$patient->birthDate);
         $comando->bindParam(":phoneNumber",$patient->phoneNumber);
         $comando->bindParam(":email",$patient->email);
+        $comando->bindParam(":password",$patient->password);
         $comando->execute();    
     }
 
