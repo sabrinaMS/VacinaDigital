@@ -1,4 +1,4 @@
-class NavBarController{
+class NavbarController{
     constructor(){
         this.paginas = [
             {
@@ -13,7 +13,11 @@ class NavBarController{
             },
             {
                 text: "Estoque de Vacinas",
-                clickHandler:this.loatVaccineStock
+                clickHandler:e =>{
+                    let controller = new VaccineStockController()
+                    controller.loadLots()
+                
+                }
             },
             {
                 text: "Cuidados Vacinas",
