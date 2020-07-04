@@ -1,6 +1,7 @@
 <?php
     use \Firebase\JWT\JWT;
     use Slim\Http\Response as Response;
+    use Slim\Psr7\Response as MiddlewareResponse;
     use Psr\Http\Message\ServerRequestInterface as Request;
 
     include_once 'Model/User.php';
@@ -43,7 +44,7 @@
         }
         
         public function validateToken($request, $handler) {
-            $response = new Response();
+            $response = new MiddlewareResponse();
             $token = $request->getHeader('Authorization');
 
             if($token && $token[0])
