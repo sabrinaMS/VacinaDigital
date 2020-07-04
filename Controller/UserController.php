@@ -1,6 +1,6 @@
 <?php
     use \Firebase\JWT\JWT;
-    use Slim\Psr7\Response as Response;
+    use Slim\Http\Response as Response;
     use Psr\Http\Message\ServerRequestInterface as Request;
 
     include_once 'Model/User.php';
