@@ -8,4 +8,8 @@ class LoginController{
     loginForm() {
         this.formLogin.mostrarLogin();
     }
+
+    efetuarLogin(email, password){
+        this.loginService.login(email, password);
+    }
 }

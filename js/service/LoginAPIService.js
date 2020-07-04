@@ -1,23 +1,25 @@
 class LoginAPIService{
     constructor(){
-        this.uri = "localhost:8080/api/auth"
+        this.uri = "http://localhost:8080/api/auth"
     }
 
     login(email, password) {
         var xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function () {
             if (this.readyState === 4) {
-                if(this.status === 200) {
-                    console.log(this.responseText)
-                    localStorage.setItem("token", this.responseText)
+                if(this.status === 201) {
+                    console.log(JSON.parse(this.responseText).token)
+                    localStorage.setItem("token", JSON.parse(this.responseText).token)
                 }
                 else {
                     console.log(this.status);
                 }
             }
         };
+        const body = {email, password}
+
         xhttp.open("POST", this.uri, true);
         xhttp.setRequestHeader("Content-Type","application/json");
-        xhttp.send(JSON.stringify({"email": email, "password": password}));
+        xhttp.send(JSON.stringify(body));
     }
 }

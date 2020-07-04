@@ -27,10 +27,14 @@ class FormLogin {
         const self = this;
         
         formElement.onsubmit = function(event){
+            event.preventDefault();
             const email = document.querySelector("#txtemail").value;
             const senha = document.querySelector("#txtsenha").value;
 
             self.loginController.efetuarLogin(email, senha);
+            // NAO DEIXAR LISTAR SEM LOGIN
+            // if (localStorage.getItem("token")){}
+            
             self.pacienteController.carregarPacientes();
         }
     }
