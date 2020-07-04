@@ -1,3 +1,5 @@
+// NOT BEING USED!!!
+
 class PatientController {
     constructor(){
         this.service = new PatientAPIService();

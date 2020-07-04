@@ -1,3 +1,6 @@
+// NOT BEING USED
+
+
 class VaccineAPIService {
     constructor(){
          //this.uri = "http://vacina-digital.herokuapp.com/api/vacinas";

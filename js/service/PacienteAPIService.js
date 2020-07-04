@@ -1,14 +1,11 @@
-// NOT BEING USED
-
-
-class PatientAPIService {
+class PacienteAPIService {
     constructor(){
         // this.uri = "http://vacina-digital.herokuapp.com/api/pacientes";
         this.uri = "http://localhost:8080/api/pacientes"
         this.jwtoken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyIjoiMSIsImVtYWlsIjoiYUBmYWtlbWFpbC5jb20ifQ.cWNK0NIj2muQlPxXH8uDlj-VZiRCshHMGwEfVNwtEiY"
     }
 
-    searchPatients(ok, erro) {
+    buscarPacientes(ok, erro) {
         var xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function () {
             if (this.readyState === 4) {
@@ -27,7 +24,7 @@ class PatientAPIService {
         xhttp.send();
     }
 
-    searchPatientById(id , ok, erro) {
+    buscarPaciente(id , ok, erro) {
         console.log(id)
         var xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function () {
@@ -50,7 +47,7 @@ class PatientAPIService {
         xhttp.send();
     }
 
-    insertPatient(patient, ok, erro) {
+    enviarPaciente(patient, ok, erro) {
         var xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function () {
             if (this.readyState === 4) {
@@ -69,7 +66,8 @@ class PatientAPIService {
         xhttp.send(JSON.stringify(patient));
     }
 
-    updatePatient(patient, ok, erro) {
+    atualizarPaciente(patient, ok, erro) {
+        console.log('SERVICE', patient)
         var xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function () {
             if (this.readyState === 4) {
@@ -87,11 +85,12 @@ class PatientAPIService {
         xhttp.send(JSON.stringify(patient));
     }
 
-    deletePatient(id , ok, erro) {
+    deletarPaciente(id , ok, erro) {
         var xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function () {
             if (this.readyState === 4) {
                 if(this.status === 200) {
+                    console.log(this.responseText)
                     ok(JSON.parse(this.responseText));
                 }
 
@@ -101,6 +100,8 @@ class PatientAPIService {
             }
         };
         xhttp.open("DELETE", this.uri + `/${id}` , true);
+        xhttp.setRequestHeader("Content-Type","application/json");
+        xhttp.setRequestHeader('Authorization', this.jwtoken);
         xhttp.send();
     }
 }
