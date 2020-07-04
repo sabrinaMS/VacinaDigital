@@ -20,30 +20,31 @@ class FormPacientes {
         <!-- NOME -->
         <div class="form-group">
             <label for="patientName">Nome Completo</label>
-            <input class="form-control" type="text" placeholder="Nome" id="txtnome" value = "${paciente.name ? paciente.name : '' }">
+            <input type="text" class="form-control" required placeholder="Nome" id="txtnome" value = "${paciente.name ? paciente.name : '' }">
           </div>
         
         <!-- ANIVERSARIO -->
         <div class="form-group">
             <label for="patientBirthDate">Data de Nascimento</label>
-            <input class="form-control" type="date" id="txtnascimento">
+            <input type="date" class="form-control" required id="txtnascimento">
         </div>
     
         <!-- TELEFONE -->
         <div class="form-group ">
             <label for="patientPhone">Telefone</label>
-            <input class="form-control" type="tel" placeholder="(51) 9999-9999" id="txttelefone" value = "${paciente.phoneNumber  ? paciente.phoneNumber : '' }">
+            <input type="tel" class="form-control" required placeholder="(51) 9999-9999" id="txttelefone" value = "${paciente.phoneNumber  ? paciente.phoneNumber : '' }">
         </div>
     
         <!-- EMAIL -->
         <div class="form-group">
             <label for="patientEmail">E-mail</label>
-            <input type="email" class="form-control" id="txtemail" aria-describedby="emailHelp" placeholder="E-mail do Paciente" value = "${paciente.email  ? paciente.email : '' }">
+            <input type="email" class="form-control" required id="txtemail" aria-describedby="emailHelp" placeholder="E-mail do Paciente" value = "${paciente.email  ? paciente.email : '' }">
         </div>
 
         <div class="form-group">
             <label for="patientEmail">Senha</label>
-            <input type="password" class="form-control" id="txtsenha" placeholder="Password">        </div>
+            <input type="password" class="form-control" required id="txtsenha" placeholder="Password">
+            </div>
 
 
         <span id = "${paciente.id}">
