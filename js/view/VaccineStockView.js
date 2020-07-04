@@ -42,7 +42,8 @@ class VaccineStockView{
             let vaccineInStock_id = $('<td>')
                 .text(lot.vaccine.quantityInStock)
             tr.append(vaccine_td, lot_td, expDate_td, lotInStock_td, vaccineInStock_id)
-            tr.click(function(e){
+            //SETTING UP EDITING EVENT
+            tr.on('dblclick',function(e){
                 new VaccineLotRegisterController(lot).loadForm()
             })
             tbody.append(tr)

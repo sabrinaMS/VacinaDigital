@@ -41,6 +41,8 @@ class VaccineLotAPIService{
     }
 
     updateVaccineLot(data, id, ok, erro){
+        console.log(data)
+        console.log(this.uri + `/${id}`)
         var xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function () {
             if (this.readyState === 4) {
@@ -56,6 +58,6 @@ class VaccineLotAPIService{
         xhttp.setRequestHeader("Content-Type","application/json");
         xhttp.setRequestHeader('Authorization', this.jwtoken);
 
-        xhttp.send(JSON.stringify(vaccineLot));
+        xhttp.send(JSON.stringify(data));
     }
 }

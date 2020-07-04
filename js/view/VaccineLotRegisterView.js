@@ -10,7 +10,7 @@ class VaccineLotRegisterView{
             .addClass('container')
 
         const title = $('<h3>')
-            .text('Cadastrar Lote')
+            .text(this.vaccineLot == null? 'Cadastrar Lote':'Editar Lote')
         const form = $('<form>')
             .addClass('row my-5')
         const lotNumberGroup = $('<div>')
@@ -69,14 +69,13 @@ class VaccineLotRegisterView{
             // INICIANLIZANDO O MODAL DE CONFIRMAÇÂO DO ENVIO DO FORM
             form.submit(e=>{
                     e.preventDefault()
-                    new ModalConfirmView('Confirme', 'Deseja confirmar a inserção do lote?', this.enviarForm).modal.modal()
+                    new ModalConfirmView('Confirme', this.vaccineLot == null? 'Deseja confirmar a inserção do lote?':'Deseja confirmar a atualização do lote?', this.enviarForm).modal.modal()
                 })
             container.append(title, form)
             //carregando formulario na pagina
             $('main').empty().append(container)
 
             if (this.vaccineLot != null){
-                console.log(this.vaccineLot)
                 this.carregarForm()
             }
     }
@@ -91,7 +90,6 @@ class VaccineLotRegisterView{
 
     carregarForm(){
         let form = document.querySelector('form')
-        console.log(form)
         form.lotNumber.value = this.vaccineLot.lotNumber
         form.expDate.value = this.vaccineLot.expDate
         form.quantity.value = this.vaccineLot.quantity

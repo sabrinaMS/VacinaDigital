@@ -16,9 +16,10 @@ class VaccineLotRegisterController{
                 "vaccine_id": form.vaccine_id.value
             }
 
-            if(this.vaccineLot == null){ //CADASTRO
+            if(self.vaccineLot == null){ //CADASTRO
                 const formSuccess = function(vaccineLot){
                     new VaccineStockController().loadLots()
+                    new ToastView('Vacina cadastrada com sucesso').render()
                 }
                 const formFail = function(e){
                     console.log(e)
@@ -27,14 +28,15 @@ class VaccineLotRegisterController{
             } else{ //UPDATE
                 const formSuccess = function(vaccineLot){
                     new VaccineStockController().loadLots()
+                    new ToastView('Vacina atualizada com sucesso').render()
                 }
                 const formFail = function(e){
                     console.log(e)
                 }
-                self.vaccineLotService.updateVaccineLot(formData, this.vaccineLot.id, formSuccess, formFail)
+                self.vaccineLotService.updateVaccineLot(formData, self.vaccineLot.id, formSuccess, formFail)
             }
 
-            $('.modal').modal('hide').then(() => $('.modal').remove())
+            $('.modal').modal('hide')
         }
 
         const success = function(vaccines) {
