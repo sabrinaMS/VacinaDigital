@@ -53,12 +53,11 @@ class VaccineShotDAO{
     }
 
     public function listByPatient($id){
-        $query = 'SELECT * FROM vaccineshot WHERE patient_id=:id';		
+        $query = "SELECT * FROM vaccineshot WHERE patient_id=:id";		
         $pdo = PDOFactory::getConexao(); 
         $comando = $pdo->prepare($query);
         $comando->bindParam(':id', $id);
         $comando->execute();
-        $result = $comando->fetch(PDO::FETCH_OBJ);
         $vaccineLotDAO = new VaccineLotDAO();
         $nurseDAO = new NurseDAO();
         $patientDAO = new PatientDAO();

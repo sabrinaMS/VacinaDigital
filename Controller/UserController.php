@@ -46,7 +46,6 @@
         public function validateToken($request, $handler) {
             $response = new MiddlewareResponse();
             $token = $request->getHeader('Authorization');
-
             if($token && $token[0])
             {
                 $decoded = null;

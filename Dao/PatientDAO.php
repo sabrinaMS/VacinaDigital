@@ -21,7 +21,7 @@ class PatientDAO{
     }
 
     public function list(){
-        $query = 'SELECT * FROM patient';
+        $query = "SELECT * FROM patient";
         $pdo = PDOFactory::getConexao();
         $comando = $pdo->prepare($query);
         $comando->execute();

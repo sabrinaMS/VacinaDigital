@@ -5,6 +5,7 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Factory\AppFactory;
 use Slim\Routing\RouteCollectorProxy;
 
+require_once "Controller/DashboardInfoController.php";
 require_once "Controller/VaccineController.php";
 require_once "Controller/NurseController.php";
 require_once "Controller/PatientController.php";
@@ -26,6 +27,8 @@ $app->group('/api/usuarios', function (RouteCollectorProxy $group){
 });
 
 $app->post('/api/auth','UserController:authenticate');
+
+$app->get('/api/dashboardInfo','DashboardInfoController:getInfo');
 
 $app->group('/api/vacinas', function (RouteCollectorProxy $group) {
     $group->post('[/]', 'VaccineController:insert');
