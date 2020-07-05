@@ -1,7 +1,6 @@
 class FormLogin {
-    constructor(controller, pacienteController, seletor) {
+    constructor(controller, seletor) {
         this.loginController = controller;
-        this.pacienteController = pacienteController;
         this.seletor = seletor;
     }
 
@@ -35,7 +34,7 @@ class FormLogin {
             // NAO DEIXAR LISTAR SEM LOGIN
             // if (localStorage.getItem("token")){}
             
-            self.pacienteController.carregarPacientes();
+            // self.pacienteController.carregarPacientes();
         }
     }
 }
