@@ -2,7 +2,7 @@ class LoginController{
     constructor(pacienteController) {
         this.loginService = new LoginAPIService();
         this.pacienteController = pacienteController;
-        this.formLogin = new FormLogin(this, pacienteController ,"main");
+        this.formLogin = new FormLogin(this, "main");
     }
 
     loginForm() {
@@ -10,6 +10,7 @@ class LoginController{
     }
 
     efetuarLogin(email, password){
-        this.loginService.login(email, password);
+        const self = this;
+        this.loginService.login(email, password, self.pacienteController.carregarPacientes);
     }
 }

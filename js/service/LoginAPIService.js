@@ -3,13 +3,14 @@ class LoginAPIService{
         this.uri = "http://localhost:8080/api/auth"
     }
 
-    login(email, password) {
+    login(email, password, ok) {
         var xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function () {
             if (this.readyState === 4) {
                 if(this.status === 201) {
                     console.log(JSON.parse(this.responseText).token)
                     localStorage.setItem("token", JSON.parse(this.responseText).token)
+                    location.reload();
                 }
                 else {
                     console.log(this.status);

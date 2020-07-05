@@ -17,8 +17,8 @@ class CardsPacientes {
                 <div class="row mb-3">
                     <div class="col-md-3 themed-grid-col">
                         <div class="vaccine-card">
-                            <h5><b>${vacinas[i].date}</b></h5>
-                            <p>${vacinas[i].lot}</p>
+                            <h5><b>${vacinas[i].lot.vaccine.name}</b></h5>
+                            <p>${vacinas[i].nurse.name}</p>
                         </div>
                     </div>
                 </div>`

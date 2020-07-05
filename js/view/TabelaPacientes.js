@@ -23,14 +23,16 @@ class TabelaPacientes {
         
         
             `;
-    
+            // <td>${pacientes[i].vaccineShots.lenght > 0 ? '<button type="button" class="btn btn-info cardVacina">Cartão de Vacina</button>' : 'Paciente sem Vacinas'} </td>
+
+        console.log("CARTA", pacientes)
         for(var i in pacientes){
             str+=`
             <tr id=${pacientes[i].id}>
                     <td>${pacientes[i].name}</td>
                     <td>${pacientes[i].email}</td>
                     <td><button type="button" class="btn btn-light edit">Editar</button></td>
-                    <td>${pacientes[i].vaccineShots.lenght > 0 ? '<button type="button" class="btn btn-info cardVacina">Cartão de Vacina</button>' : 'Paciente sem Vacinas'} </td>
+                    <td> <button type="button" class="btn btn-info cardVacina">Cartão de Vacina</button></td>
                     <td><button type="button" class="btn btn btn-light delete">Excluir  </button></td>   
                 </tr>`;
                 

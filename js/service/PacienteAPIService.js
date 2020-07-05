@@ -1,37 +1,36 @@
 class PacienteAPIService {
-    constructor(){
+    constructor() {
         // this.uri = "http://vacina-digital.herokuapp.com/api/pacientes";
         this.uri = "http://localhost:8080/api/pacientes"
         // this.jwtoken = localStorage.getItem("token")
-        this.jwtoken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyIjoiMSIsImVtYWlsIjoiYUBmYWtlbWFpbC5jb20ifQ.cWNK0NIj2muQlPxXH8uDlj-VZiRCshHMGwEfVNwtEiY"
-    }
 
+        // this.jwtoken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyIjoiMSIsImVtYWlsIjoiYUBmYWtlbWFpbC5jb20ifQ.cWNK0NIj2muQlPxXH8uDlj-VZiRCshHMGwEfVNwtEiY"
+    }
     buscarPacientes(ok, erro) {
         var xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function () {
             if (this.readyState === 4) {
-                if(this.status === 200) {
-                    console.log(this.responseText)
+                if (this.status === 200) {
                     ok(JSON.parse(this.responseText));
                 }
-
                 else {
                     erro(this.status);
                 }
             }
         };
-        
+
+
         xhttp.open("GET", this.uri, true);
-        xhttp.setRequestHeader('Authorization', this.jwtoken);
+        xhttp.setRequestHeader('Authorization', localStorage.getItem("token"));
         xhttp.send();
     }
 
-    buscarPaciente(id , ok, erro) {
+    buscarPaciente(id, ok, erro) {
         console.log(id)
         var xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function () {
             if (this.readyState === 4) {
-                if(this.status === 200) {
+                if (this.status === 200) {
                     console.log(this.responseText)
                     ok(JSON.parse(this.responseText));
 
@@ -43,9 +42,9 @@ class PacienteAPIService {
             }
         };
 
-        
-        xhttp.open("GET", this.uri + `/${id}` , true);
-        xhttp.setRequestHeader('Authorization', this.jwtoken);
+
+        xhttp.open("GET", this.uri + `/${id}`, true);
+        xhttp.setRequestHeader('Authorization', localStorage.getItem("token"));
         xhttp.send();
     }
 
@@ -53,7 +52,7 @@ class PacienteAPIService {
         var xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function () {
             if (this.readyState === 4) {
-                if(this.status === 200) {
+                if (this.status === 200 || this.status === 201) {
                     ok(JSON.parse(this.responseText));
                 }
                 else {
@@ -62,8 +61,8 @@ class PacienteAPIService {
             }
         };
         xhttp.open("POST", this.uri, true);
-        xhttp.setRequestHeader("Content-Type","application/json");
-        xhttp.setRequestHeader('Authorization', this.jwtoken);
+        xhttp.setRequestHeader("Content-Type", "application/json");
+        xhttp.setRequestHeader('Authorization', localStorage.getItem("token"));
 
         xhttp.send(JSON.stringify(patient));
     }
@@ -73,7 +72,7 @@ class PacienteAPIService {
         var xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function () {
             if (this.readyState === 4) {
-                if(this.status === 200) {
+                if (this.status === 200) {
                     ok(JSON.parse(this.responseText));
                 }
                 else {
@@ -81,17 +80,17 @@ class PacienteAPIService {
                 }
             }
         };
-        xhttp.open("PUT", this.uri + `/${patient.id}` , true);
-        xhttp.setRequestHeader("Content-Type","application/json");
-        xhttp.setRequestHeader('Authorization', this.jwtoken);
+        xhttp.open("PUT", this.uri + `/${patient.id}`, true);
+        xhttp.setRequestHeader("Content-Type", "application/json");
+        xhttp.setRequestHeader('Authorization', localStorage.getItem("token"));
         xhttp.send(JSON.stringify(patient));
     }
 
-    deletarPaciente(id , ok, erro) {
+    deletarPaciente(id, ok, erro) {
         var xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function () {
             if (this.readyState === 4) {
-                if(this.status === 200) {
+                if (this.status === 200) {
                     console.log(this.responseText)
                     ok(JSON.parse(this.responseText));
                 }
@@ -101,9 +100,9 @@ class PacienteAPIService {
                 }
             }
         };
-        xhttp.open("DELETE", this.uri + `/${id}` , true);
-        xhttp.setRequestHeader("Content-Type","application/json");
-        xhttp.setRequestHeader('Authorization', this.jwtoken);
+        xhttp.open("DELETE", this.uri + `/${id}`, true);
+        xhttp.setRequestHeader("Content-Type", "application/json");
+        xhttp.setRequestHeader('Authorization', localStorage.getItem("token"));
         xhttp.send();
     }
 }
