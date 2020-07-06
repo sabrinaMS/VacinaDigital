@@ -1,20 +1,21 @@
 class DashboardController{
     constructor(){
         this.service = new DashboardAPIService()
+        this.view = new DashboardView(this.verEstoqueCallback, this.verPacientesCallback)
+        this.spinnerView = new SpinnerView()
     }
     loadDashboard(){
         const self = this
         const success = function(info){
-            const view = new DashboardView(info, self.verPacientesCallback, self.verEstoqueCallback)
-            view.render()
+            self.view.info = info;
+            self.view.render()
         }
         const error = function(e){
             const eController = new ErrorController(e.status, e.message)
             eController.render()
         }
 
-        const spinner = new SpinnerView()
-        spinner.render()
+        this.spinnerView.render()
         this.service.getInfo(success, error)
     }
 

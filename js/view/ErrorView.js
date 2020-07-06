@@ -1,15 +1,18 @@
 
 class ErrorView{
-    constructor(code, message){
+    constructor(code = '', message = ''){
         this.code = code
         this.message = message
     }
     render(){
         const container = $('<div>')
+
         const title = $('<h3>')
             .text(`Erro ${this.code}`)
+
         const imgContainer = $('<picture>')
             .addClass('d-block w-100 mt-5')
+
         const img = $('<img>')
             .addClass('d-block mx-auto')
             .attr({
@@ -17,11 +20,12 @@ class ErrorView{
                 "alt":`Erro ${this.code}`
             })
             .css('opacity', '0.85')
-        const text = $('<figcaption>')
+
+        const caption = $('<figcaption>')
             .addClass('text-center mt-3')
             .text(this.message)
         
-        imgContainer.append(img, text)
+        imgContainer.append(img, caption)
 
         container.append(title, imgContainer)
         $('main').empty().append(container)

@@ -1,6 +1,19 @@
 class NavbarController{
-    constructor(){
-        this.paginas = [
+    constructor(){      
+        this.view = new NavbarView(this.paginas);
+    }
+    
+    loadNavbar(){
+        $('.headerContainer').empty().append(this.view.render());
+    }
+    
+    makeLinkActive(index){
+        $('.nav-item').removeClass('active')
+        $('.nav-item').eq(index).addClass('active')
+    }
+    
+    get paginas(){
+        return [
             {
                 text:"Home",
                 clickHandler:e => {
@@ -39,17 +52,6 @@ class NavbarController{
                 }
             }
         ];
-
-        this.view = new NavbarView(this.paginas);
     }
     
-    loadNavbar(){
-        $('.headerContainer').empty().append(this.view.render());
-    }
-
-    makeLinkActive(index){
-        $('.nav-item').removeClass('active')
-        $('.nav-item').eq(index).addClass('active')
-    }
-
 }

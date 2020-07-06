@@ -1,63 +1,78 @@
 class DashboardView{
-    constructor(info, patientCallback, stockCallback){
-        this.info = info
+    constructor(patientCallback, stockCallback, info = null){
         this.patientCallback = patientCallback
         this.stockCallback = stockCallback
+        this.info = info
     }
-
+    
     render(){
         const container = $('<div>')
             .addClass('container')
         const title = $('<h3>')
             .text('Bem Vindo')
+        
+        const cardsRow = this.makeCardsRow()
+        
+        container.append(title,cardsRow)
+        
+        $('main').empty().append(container)
+        
+    }
+    
+    makeCardsRow(){
         const cardsRow = $('<div>')
             .addClass('row')
         this.cardsData.forEach(card => {
-            let cardContainer = $('<div>')
-                .addClass('col-12 col-sm-12 col-md-6 col-lg-4')
-            let cardElement = $('<div>')
-                .addClass('card m-3')
-            let cardBody = $('<div>')
-                .addClass('card-body')
-                
-            let valueContainer = $("<div>")
-                .addClass('mx-auto d-flex justify-content-center align-items-center')
-                .css({
-                    'height':'6em',
-                    'width':'6em',
-                    'border': `10px solid ${card.borderColor}88`,
-                    'border-radius': '50%'
-                })
-            let cardValue = $('<h5>')
-            .addClass('card-title m-0')
-            .text(card.value)
-
-            
-            let cardLegend = $('<p>')
-            .addClass('card-text text-center mt-3')
-            .text(card.legend) 
-
-            let cardLink = $('<a>')
-                .addClass('d-block text-center my-2')
-                .attr('href', '#')
-                .text(card.actionText)
-                .click(card.callback)
-
-            valueContainer.append(cardValue)
-            cardBody.append(valueContainer, cardLegend, cardLink)
-            cardElement.append(cardBody)
-            cardContainer.append(cardElement)
+            const cardContainer = this.makeCard(card)
             cardsRow.append(cardContainer)
+            
         })
-        container.append(title,cardsRow)
-
-        $('main').empty().append(container)
-
+        return cardsRow;
     }
+    
+    makeCard(data){
+        let cardContainer = $('<div>')
+                .addClass('col-12 col-sm-12 col-md-6 col-lg-4')
 
+        let cardElement = $('<div>')
+            .addClass('card m-3')
 
-
-
+        let cardBody = $('<div>')
+            .addClass('card-body')
+        
+        let valueContainer = $("<div>")
+            .addClass('mx-auto d-flex justify-content-center align-items-center')
+            .css({
+                'height':'6em',
+                'width':'6em',
+                'border': `10px solid ${data.borderColor}88`,
+                'border-radius': '50%'
+            })
+        let cardValue = $('<h5>')
+            .addClass('card-title m-0')
+            .text(data.value)
+            
+        
+        let cardLegend = $('<p>')
+            .addClass('card-text text-center mt-3')
+            .text(data.legend) 
+        
+        let cardLink = $('<a>')
+            .addClass('d-block text-center my-2')
+            .attr('href', '#')
+            .text(data.actionText)
+            .click(data.callback)
+        
+        valueContainer.append(cardValue)
+        cardBody.append(valueContainer, cardLegend, cardLink)
+        cardElement.append(cardBody)
+        cardContainer.append(cardElement)
+        console.log(cardContainer)
+        return cardContainer
+    }
+    
+    
+    
     get cardsData(){
         return [
             {

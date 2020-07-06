@@ -1,8 +1,9 @@
 class VaccineStockView{
-    constructor(lotesVacina, addButtonCallback){
+    constructor(addButtonCallback, editLotCallback, lotesVacina = []){
+        this.addButtonCallback = addButtonCallback
+        this.editLotCallback = editLotCallback
         this.lotesVacina = lotesVacina
         this.headers = ["Vacina", "Lote", "Validade", "Quantidade Lote", "Quantidade Vacina"]
-        this.addButtonCallback = addButtonCallback
     }
 
     render(){
@@ -16,45 +17,71 @@ class VaccineStockView{
             .addClass('btn btn-info my-3')
             .click(this.addButtonCallback)
         
-        let table = $('<table>')
-            .addClass('table')
-        let thead = $('<thead>')
-            .addClass('thead-dark')
-        let theadRow = $('<tr>')
-        this.headers.forEach(header => {
-            let th = $('<th>')
-                .text(header)
-            theadRow.append(th)            
-        })
-        thead.append(theadRow)
-
-        let tbody = $('<tbody>')
-        this.lotesVacina.forEach(lot => {
-            let tr = $('<tr>')
-            let vaccine_td = $('<td>')
-                .text(lot.vaccine.name)
-            let lot_td = $('<td>')
-                .text(lot.lotNumber)
-            let expDate_td = $('<td>')
-                .text(this.dateToStr(lot.expDate))
-            let lotInStock_td = $('<td>')
-                .text(lot.quantity)
-            let vaccineInStock_id = $('<td>')
-                .text(lot.vaccine.quantityInStock)
-            tr.append(vaccine_td, lot_td, expDate_td, lotInStock_td, vaccineInStock_id)
-            //SETTING UP EDITING EVENT
-            tr.on('dblclick',function(e){
-                new VaccineLotRegisterController(lot).loadForm()
-            })
-            tbody.append(tr)
-        })
-
-        table.append(thead, tbody)
+        const table = this.makeTable()
+        
         container.append(title,add_button, table)
-        $('main').empty().append(container)        
+        $('main').empty().append(container) 
+               
         table.DataTable(this.dataTableOptions) //iniciando o plugin
         this.bootstrapDatatable()
         
+    }
+
+    makeTable(){
+        const table = $('<table>')
+            .addClass('table')
+        
+        const thead = this.makeThead()
+        const tbody = this.makeTbody()
+        
+
+        table.append(thead, tbody)
+        return table
+    }
+
+    makeTbody(){
+        const tbody = $('<tbody>')
+        this.lotesVacina.forEach(lot => {
+            const tr = this.makeTr(lot)
+            tbody.append(tr)
+        })
+        return tbody
+    }
+
+    makeThead(){
+        const thead = $('<thead>')
+            .addClass('thead-dark')
+        const theadRow = $('<tr>')
+        this.headers.forEach(header => {
+            const th = $('<th>')
+                .text(header)
+
+            theadRow.append(th)            
+        })
+        thead.append(theadRow)
+        return thead
+    }
+
+    makeTr(lot){
+        const tr = $('<tr>')
+        const vaccine_td = $('<td>')
+            .text(lot.vaccine.name)
+        const lot_td = $('<td>')
+            .text(lot.lotNumber)
+        const expDate_td = $('<td>')
+            .text(this.dateToStr(lot.expDate))
+        const lotInStock_td = $('<td>')
+            .text(lot.quantity)
+        const vaccineInStock_id = $('<td>')
+            .text(lot.vaccine.quantityInStock)
+        tr.append(vaccine_td, lot_td, expDate_td, lotInStock_td, vaccineInStock_id)
+        
+        //SETTING UP EDITING EVENT
+        tr.on('dblclick',e => {
+            console.log(this)
+            this.editLotCallback(lot)
+        })
+        return tr
     }
 
     get dataTableOptions(){
