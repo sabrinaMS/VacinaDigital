@@ -3,8 +3,8 @@
 
 class VaccineAPIService {
     constructor(){
-         //this.uri = "http://vacina-digital.herokuapp.com/api/vacinas";
-        this.uri = "http://localhost:8080/api/vacinas"
+        this.uri = "http://vacina-digital.herokuapp.com/api/vacinas";
+        //this.uri = "http://localhost:8080/api/vacinas"
     }
 // QUANTITY IN STOCK
 

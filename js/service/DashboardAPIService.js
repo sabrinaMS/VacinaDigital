@@ -1,6 +1,6 @@
 class DashboardAPIService{
     constructor(){
-        this.uri = 'http://localhost:8080/api/dashboardInfo'
+        this.uri = 'https://vacina-digital.herokuapp.com/api/dashboardInfo'
     }
     getInfo(ok, erro){
         var xhttp = new XMLHttpRequest();

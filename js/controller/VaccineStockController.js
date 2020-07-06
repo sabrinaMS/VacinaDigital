@@ -9,9 +9,12 @@ class VaccineStockController{
             self.populateTable(lots)
         }
         const error = function(error){
-            console.log("error:",error)
+            const controller = new ErrorController(error)
+            controller.showError()
         }
 
+        const spinner = new SpinnerView()
+        spinner.render()
         this.service.searchVaccineLots(success, error)
     }
 

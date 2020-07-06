@@ -1,7 +1,7 @@
 class PacienteAPIService {
     constructor() {
-        // this.uri = "http://vacina-digital.herokuapp.com/api/pacientes";
-        this.uri = "http://localhost:8080/api/pacientes"
+        this.uri = "https://vacina-digital.herokuapp.com/api/pacientes";
+        //this.uri = "http://localhost:8080/api/pacientes"
         // this.jwtoken = localStorage.getItem("token")
 
         // this.jwtoken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyIjoiMSIsImVtYWlsIjoiYUBmYWtlbWFpbC5jb20ifQ.cWNK0NIj2muQlPxXH8uDlj-VZiRCshHMGwEfVNwtEiY"

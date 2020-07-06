@@ -2,7 +2,7 @@ class NavbarController{
     constructor(){
         this.paginas = [
             {
-                text:"home",
+                text:"Home",
                 clickHandler:e => {
                     this.makeLinkActive(0)
                     const controller = new DashboardController()

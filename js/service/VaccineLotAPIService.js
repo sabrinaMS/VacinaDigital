@@ -1,7 +1,7 @@
 class VaccineLotAPIService{
     constructor(){
-        //this.uri = "http://vacina-digital.herokuapp.com/api/lotesvacina";
-        this.uri = "http://localhost:8080/api/lotesvacina"
+        this.uri = "https://vacina-digital.herokuapp.com/api/lotesvacina";
+        //this.uri = "http://localhost:8080/api/lotesvacina"
     }
 
     searchVaccineLots(ok, erro){
@@ -13,7 +13,7 @@ class VaccineLotAPIService{
                 }
 
                 else {
-                    erro(this.status);
+                    erro(JSON.parse(this.responseText));
                 }
             }
         }
@@ -29,7 +29,7 @@ class VaccineLotAPIService{
                     ok(JSON.parse(this.responseText));
                 }
                 else {
-                    erro(this.status);
+                    erro(JSON.parse(this.responseText));
                 }
             }
         };

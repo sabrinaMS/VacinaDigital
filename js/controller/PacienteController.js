@@ -26,7 +26,9 @@ class PacienteController{
         const trataErro = function(statusCode) {
             console.log("Erro:",statusCode);
         }
-
+        
+        const spinner = new SpinnerView()
+        spinner.render()
         this.pacienteService.buscarPacientes(sucesso, trataErro);
     }
 

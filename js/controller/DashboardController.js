@@ -9,15 +9,19 @@ class DashboardController{
             view.render()
         }
         const error = function(e){
-            console.log(e)
+            const eController = new ErrorController(e)
+            eController.showError()
         }
+
+        const spinner = new SpinnerView()
+        spinner.render()
         this.service.getInfo(success, error)
     }
 
 
     verPacientesCallback(e){
         e.preventDefault()
-        $('.nav-link')
+        $('.nav-item')
             .removeClass('active')
             .eq(1).addClass('active')
         
@@ -27,11 +31,11 @@ class DashboardController{
 
     verEstoqueCallback(e){
         e.preventDefault()
-        $('.nav-link')
+        $('.nav-item')
             .removeClass('active')
-            .eq(1).addClass('active')
+            .eq(2).addClass('active')
         
         const controller = new VaccineStockController()
-        controller.inicializa()
+        controller.loadLots()
     }
 }

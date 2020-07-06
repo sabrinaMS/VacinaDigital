@@ -69,7 +69,7 @@ class DashboardView{
             },
             {
                 legend:'Vacinados na última semana',
-                value: this.info.patients_lastWeek,
+                value: this.info.patients_lastweek,
                 borderColor: '#007bff',
                 callback: this.patientCallback,
                 actionText: 'Ver pacientes'
@@ -83,14 +83,14 @@ class DashboardView{
             },
             {
                 legend: 'Vacinas esgotadas',
-                value: this.info.vaccines_outOfStock,
+                value: this.info.vaccines_outofstock,
                 borderColor: '#dc3545',
                 callback: this.stockCallback,
                 actionText: 'Ver estoque'
             },
             {
                 legend: 'Doses em estoque',
-                value: this.info.shots_inStock,
+                value: this.info.shots_instock,
                 borderColor: '#17a2b8',
                 callback: this.stockCallback,
                 actionText: 'Ver estoque'

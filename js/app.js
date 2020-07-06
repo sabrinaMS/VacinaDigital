@@ -1,14 +1,17 @@
 // const vaccineCardController =  new VaccineController();
 // const patientController = new PatientController();
 const pacienteController =  new PacienteController();
+const dashboardController = new DashboardController()
 const loginController = new LoginController(pacienteController);
+const navbarController = new NavbarController()
 
 var body = document.querySelector("body");
 body.onload = function () {
-    new NavbarController().loadNavbar()
+    navbarController.loadNavbar()
     // patientController.loadPatients();
     if (localStorage.getItem("token")){
-        pacienteController.inicializa();
+        dashboardController.loadDashboard();
+        navbarController.makeLinkActive(0)
     } else {
         loginController.loginForm();
     }

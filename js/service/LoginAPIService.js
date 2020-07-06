@@ -1,6 +1,7 @@
 class LoginAPIService{
     constructor(){
-        this.uri = "http://localhost:8080/api/auth"
+        this.uri = "https://vacina-digital.herokuapp.com/api/auth"
+        //this.uri = "http://localhost:8080/api/auth"
     }
 
     login(email, password, ok) {

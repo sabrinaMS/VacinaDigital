@@ -30,7 +30,7 @@ class VaccineLotRegisterView{
                     .attr('for', 'expDate')
                     .text('Data de Validade:'),
                 $('<input>')
-                    .attr({'type': 'date' ,'id': 'expDate', 'name':'expDate' ,'required': true})
+                    .attr({'type': 'date' ,'id': 'expDate', 'name':'expDate' ,'required': true, 'min': this.tomorrowString})
                     .addClass('form-control')
             )
         const quantityGroup = $('<div>')
@@ -95,6 +95,17 @@ class VaccineLotRegisterView{
         form.quantity.value = this.vaccineLot.quantity
         form.vaccine_id.value = this.vaccineLot.vaccine.id
 
+    }
+
+    get tomorrowString(){
+        let tomorrow = new Date()
+        tomorrow.setDate(tomorrow.getDate() + 1)
+
+        const dd = tomorrow.getDate() < 10? '0' + tomorrow.getDate() : tomorrow.getDate()
+        const mm = tomorrow.getMonth() + 1 < 10? '0' + (tomorrow.getMonth()+1) : tomorrow.getMonth() + 1
+        const yyyy = tomorrow.getFullYear()
+
+        return `${yyyy}-${mm}-${dd}`
     }
             
 }
