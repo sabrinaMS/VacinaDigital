@@ -7,6 +7,7 @@ class NavbarController{
                     this.makeLinkActive(0)
                     const controller = new DashboardController()
                     controller.loadDashboard()
+                    $('.collapse').collapse('hide')
                 }
             },
             {
@@ -15,6 +16,7 @@ class NavbarController{
                     this.makeLinkActive(1)
                     const controller = new PacienteController()
                     controller.inicializa()
+                    $('.collapse').collapse('hide')
                 }
             },
             {
@@ -23,12 +25,18 @@ class NavbarController{
                     this.makeLinkActive(2)
                     const controller = new VaccineStockController()
                     controller.loadLots()
-                
+                    $('.collapse').collapse('hide')
+                    
                 }
             },
             {
-                text: "Cuidados Vacinas",
-                clickHandler: this.loadVaccineReccomendantions
+                text: "Vacinas",
+                clickHandler: e=>{
+                    this.makeLinkActive(3);
+                    const vaccineController = new VaccineController();
+                    vaccineController.loadVaccines();
+                    $('.collapse').collapse('hide')
+                }
             }
         ];
 

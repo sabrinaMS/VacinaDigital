@@ -17,11 +17,31 @@ class VaccineAPIService {
                 }
 
                 else {
-                    erro(this.status);
+                    erro(JSON.parse(this.responseText));
                 }
             }
         };
         xhttp.open("GET", this.uri, true);
         xhttp.send();
+    }
+
+    insertVaccine(data, ok, error){
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+            if (this.readyState === 4) {
+                if(this.status === 201) {
+                    ok(JSON.parse(this.responseText));
+                }
+                else {
+                    error(JSON.parse(this.responseText));
+                }
+            }
+        };
+        console.log(this.uri)
+        xhttp.open("POST", this.uri, true);
+        xhttp.setRequestHeader("Content-Type","application/json");
+        xhttp.setRequestHeader('Authorization', this.jwtoken);
+
+        xhttp.send(JSON.stringify(data));
     }
 }

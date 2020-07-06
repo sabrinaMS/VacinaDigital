@@ -9,8 +9,8 @@ class DashboardController{
             view.render()
         }
         const error = function(e){
-            const eController = new ErrorController(e)
-            eController.showError()
+            const eController = new ErrorController(e.status, e.message)
+            eController.render()
         }
 
         const spinner = new SpinnerView()

@@ -1,43 +1,59 @@
 // NOT BEING USED
 
+class VaccineController {
+    constructor(){
+        this.service = new VaccineAPIService();
+        this.vaccineView = new VaccineView();
+        this.vaccineFormView = new VaccineFormView();
+        this.spinnerView = new SpinnerView();
+    }
 
+    loadVaccines() {
+        const self = this;
 
-// class VaccineController {
-//     constructor(){
-//         this.service = new VaccineAPIService();
-//     }
+        const success = function(vaccines){
+            self.showVaccines(vaccines);
+        }
 
-//     loadVaccines() {
-//         const self = this;
+        const error = function(e) {
+            const errorView = new ErrorView();
+            errorView.render();
+        }
 
-//         const success = function(vaccines){
+        this.spinnerView.render();
+        this.service.searchVaccines(success, error);
+    }
 
-//             self.populateVaccinesCards(vaccines);
-//         }
-
-//         const error = function(statusCode) {
-//             console.log("Error:",statusCode);
-//         }
-
-//         this.service.searchVaccines(success, error);
-//     }
-
-//     // VACCINE CRUD
+    // VACCINE CRUD
     
-//     populateVaccinesCards(vaccines) {
-//         var vaccine = ""
-        
-//         for (var i in vaccines) {
-//             vaccine += `
-//             <div class="col-md-3 themed-grid-col">
-//                 <div class="vaccine-card">
-//                     <h5><b> ${vaccines[i].name}</b></h5>
-//                     <p> ${vaccines[i].quantityInStock}</p>
-//                 </div>
-//             </div>`
-//         }
-//         var cardsDiv = document.querySelector("#loadingVaccines");
-//         cardsDiv.innerHTML = vaccine;
-//     }
+    showVaccines(vaccines) {
+        this.vaccineView.addButtonCallback = this.openForm.bind(this);
+        this.vaccineView.render(vaccines);
+    }
 
-// }
+    openForm(){
+        this.vaccineFormView.submitCallback = this.vaccinePostRequest.bind(this)
+        this.vaccineFormView.render()
+    }
+
+    vaccinePostRequest(e){
+        e.preventDefault()
+        const data = this.vaccineFormView.formVaules
+
+        const success = data => {
+            const toast = new ToastView('Vacina cadastrada com sucesso!');
+            toast.render()
+            this.loadVaccines()
+        }
+
+        const fail = error =>{
+            const errorView = new ErrorView(error.status, error.message)
+            errorView.render()
+        }
+
+        this.spinnerView.render();
+        this.service.insertVaccine(data, success, fail);
+
+    }
+
+}

@@ -14,7 +14,7 @@ class NavbarView{
 
         let colapsible_div = $('<div>')
             .addClass('collapse navbar-collapse')
-            .attr('id', 'navbarsExampleDefault')
+            .attr('id', 'navbarCollapsible')
 
         let links_ul = $('<ul>')
             .addClass('navbar-nav mr-auto')
@@ -31,9 +31,24 @@ class NavbarView{
             item_li.append(item_a)
             links_ul.append(item_li)
         })
+
+        const collapseButton = $('<button>')
+            .addClass('navbar-toggler')
+            .attr({
+                'type':'button',
+                'data-toggle':'collapse',
+                'data-target':'#navbarCollapsible',
+                'aria-controls':'navbarNavAltMarkup',
+                'aria-expanded':'false',
+                'aria-label':'Toggle navigation'
+            })
+            .append(
+                $('<span>')
+                    .addClass('navbar-toggler-icon')
+            );
         
         colapsible_div.append(links_ul)
-        navBar_nav.append(title_a, colapsible_div)
+        navBar_nav.append(title_a, collapseButton, colapsible_div)
         return navBar_nav
     }
 }
