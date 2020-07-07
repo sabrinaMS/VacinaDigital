@@ -37,4 +37,9 @@ class FormLogin {
             // self.pacienteController.carregarPacientes();
         }
     }
+
+    mostrarErro(){
+        $('.erro').remove()
+        $('form').prepend($('<p>').addClass('erro text-danger').text('E-mail ou senha Inválidos'))
+    }
 }

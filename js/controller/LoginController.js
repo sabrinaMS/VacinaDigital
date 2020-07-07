@@ -11,6 +11,6 @@ class LoginController{
 
     efetuarLogin(email, password){
         const self = this;
-        this.loginService.login(email, password, self.pacienteController.carregarPacientes);
+        this.loginService.login(email, password, self.pacienteController.carregarPacientes, self.formLogin.mostrarErro);
     }
 }

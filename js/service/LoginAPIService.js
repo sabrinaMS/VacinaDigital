@@ -4,7 +4,7 @@ class LoginAPIService{
         //this.uri = "http://localhost:8080/api/auth"
     }
 
-    login(email, password, ok) {
+    login(email, password, ok, erro) {
         var xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function () {
             if (this.readyState === 4) {
@@ -15,6 +15,8 @@ class LoginAPIService{
                 }
                 else {
                     console.log(this.status);
+                    console.log(this.erro)
+                    erro()
                 }
             }
         };
