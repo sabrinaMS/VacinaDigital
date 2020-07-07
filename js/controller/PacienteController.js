@@ -61,7 +61,6 @@ class PacienteController{
         }
                 
         this.pacienteService.enviarPaciente(paciente, sucesso, trataErro);    
-
     }
 
     deletarPaciente(id, event){

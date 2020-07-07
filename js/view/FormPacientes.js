@@ -25,8 +25,8 @@ class FormPacientes {
         
         <!-- ANIVERSARIO -->
         <div class="form-group">
-            <label for="patientBirthDate">Data de Nascimento</label>
-            <input type="date" class="form-control" required id="txtnascimento">
+            <label for="patientBirthDate">Data de Nascinemto</label>
+            <input type="date" class="form-control" required id="txtnascimento" value="${paciente.birthDate ? paciente.birthDate : '' }">
         </div>
     
         <!-- TELEFONE -->
@@ -61,7 +61,7 @@ class FormPacientes {
         var form = document.querySelector("#formulario");
         const self = this;
         form.onsubmit = function(event){
-            console.log("antes do if", paciente)
+            // console.log("antes do if", paciente)
             if(!paciente.id){
                 self.pacienteController.salvar(event);
             }
@@ -99,29 +99,3 @@ class FormPacientes {
     }
 
 }
-
-
-// var str = `
-//         <h2>Formulario de Pacientes</h2>
-//         <form id="formulario">
-//             <input type="hidden" id="txtpaciente" value="${paciente.id}" />
-//             <label for="txtnome">Nome</label>
-//             <input type="text" id="txtnome" value="${paciente.name ? paciente.name :''}">
-//             <br />
-//             <label for="txtuso">Data de Nascimento</label>
-//             <input type="text" id="txtnascimento" value="${paciente.birthDate ? paciente.birthDate :''}">
-//             <br />
-//             <label for="txtuso">Telefone</label>
-//             <input type="text" id="txttelefone" value="${paciente.phoneNumber ? paciente.phoneNumber :''}">
-//             <br />
-//             <label for="txtuso">Email</label>
-//             <input type="text" id="txtemail" value="${paciente.email ? paciente.email :''}">
-//             <br />
-//             <label for="txtuso">Senha</label>
-//             <input type="text" id="txtsenha" value="${paciente.password ? paciente.password :''}">
-//             <br />
-//             <input type="submit" id="btnsalvar" value="Salvar">
-//             <input type="reset" value="Cancelar">
-//             <br />
-//         </form>
-//         `;
