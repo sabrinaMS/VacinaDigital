@@ -4,6 +4,12 @@ class NavbarController{
     }
     
     loadNavbar(){
+        this.view.paginas = this.paginas
+        $('.headerContainer').empty().append(this.view.render());
+    }
+    
+    loadWithoutLinks(){
+        this.view.paginas = []
         $('.headerContainer').empty().append(this.view.render());
     }
     

@@ -12,16 +12,20 @@ class NavbarView{
             .attr('href', '#')
             .text('Vacina Digital')
 
-        const colapsible_div = $('<div>')
-            .addClass('collapse navbar-collapse')
-            .attr('id', 'navbarCollapsible')
+            
+        if(this.paginas.length > 0){
+            const colapsible_div = $('<div>')
+                .addClass('collapse navbar-collapse')
+                .attr('id', 'navbarCollapsible')
+            const links_ul = this.makeLinksList()
+            const collapse_button = this.makeCollapseButton()
+            colapsible_div.append(links_ul)
+            navBar_nav.append(title_a, collapse_button, colapsible_div)
 
-        const links_ul = this.makeLinksList()
+        }else{
+            navBar_nav.append(title_a)
+        }
 
-        const collapse_button = this.makeCollapseButton()
-        
-        colapsible_div.append(links_ul)
-        navBar_nav.append(title_a, collapse_button, colapsible_div)
         return navBar_nav
     }
 
