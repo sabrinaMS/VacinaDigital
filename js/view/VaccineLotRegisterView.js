@@ -7,7 +7,6 @@ class VaccineLotRegisterView{
 
     render(){
         let container = $('<section>')
-            .addClass('container')
 
         const title = $('<h3>')
             .text(this.vaccineLot == null? 'Cadastrar Lote':'Editar Lote')

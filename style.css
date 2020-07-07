@@ -46,3 +46,15 @@ p {
         padding: 10px;
     }
 }
+
+.table-container{
+    overflow-x: auto;
+}
+
+#tabela-pacientes, #tabela-vacinas, .dataTables_wrapper{
+    min-width: 690px;
+}
+
+#tabela-lotes{
+    min-width: 450px;
+}

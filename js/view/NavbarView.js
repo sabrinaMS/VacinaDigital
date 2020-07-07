@@ -5,7 +5,8 @@ class NavbarView{
 
     render(){
         const navBar_nav = $('<nav>')
-            .addClass('navbar navbar-expand-md navbar-dark bg-dark fixed-top')
+        .addClass('navbar navbar-expand-md navbar-dark bg-dark fixed-top')
+        const container = $('<div>').addClass('container')
         
         const title_a = $('<a>')
             .addClass('navbar-brand text-white')
@@ -20,11 +21,12 @@ class NavbarView{
             const links_ul = this.makeLinksList()
             const collapse_button = this.makeCollapseButton()
             colapsible_div.append(links_ul)
-            navBar_nav.append(title_a, collapse_button, colapsible_div)
+            container.append(title_a, collapse_button, colapsible_div)
 
         }else{
-            navBar_nav.append(title_a)
+            container.append(title_a)
         }
+        navBar_nav.append(container)
 
         return navBar_nav
     }

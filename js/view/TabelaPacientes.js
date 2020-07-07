@@ -8,8 +8,8 @@ class TabelaPacientes {
         var str = `
         <h2>Tabela de Pacientes</h2>
         <button type="button" id="novo" class="btn btn-info my-3">Adicionar Paciente</button>
-
-        <table class = "table">
+        <div class = "table-container">
+        <table class = "table" id="tabela-pacientes">
             <thead class="thead-dark">
             <tr>
                 <th scope="col">Nome do Paciente</th>
@@ -54,7 +54,7 @@ class TabelaPacientes {
             </div>`;
         }
         str += `
-        </div>`;
+        </table></div>`;
 
         var tabela = document.querySelector(this.seletor);
         tabela.innerHTML = str;

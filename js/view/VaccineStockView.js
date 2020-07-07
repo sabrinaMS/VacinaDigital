@@ -9,7 +9,6 @@ class VaccineStockView{
 
     render(){
         const container = $('<section>')
-            .addClass('container')
         const title = $('<h3>')
             .text('Estoque')
         
@@ -23,21 +22,23 @@ class VaccineStockView{
         container.append(title,add_button, table)
         $('main').empty().append(container) 
                
-        table.DataTable(this.dataTableOptions) //iniciando o plugin
+        $('table').DataTable(this.dataTableOptions) //iniciando o plugin
         this.bootstrapDatatable()
         
     }
 
     makeTable(){
+        const tableContainer = $('<div>').addClass('table-container')
         const table = $('<table>')
             .addClass('table')
+            .attr('id', 'tabela-lotes')
         
         const thead = this.makeThead()
         const tbody = this.makeTbody()
         
-
         table.append(thead, tbody)
-        return table
+        tableContainer.append(table)
+        return tableContainer
     }
 
     makeTbody(){
@@ -55,6 +56,7 @@ class VaccineStockView{
         const theadRow = $('<tr>')
         this.headers.forEach(header => {
             const th = $('<th>')
+                .addClass('text-center')
                 .text(header)
             if (header == ""){
                 th.attr('data-orderable', 'false')

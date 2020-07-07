@@ -8,7 +8,6 @@ class DashboardView{
     
     render(){
         const container = $('<div>')
-            .addClass('container')
         const title = $('<h3>')
             .text('Bem Vindo')
         

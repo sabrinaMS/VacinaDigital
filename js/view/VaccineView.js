@@ -14,13 +14,15 @@ class VaccineView{
     }
 
     makeTable(){
+        const tableContainer = $('<div>').addClass('table-container')
         const table = $('<table>')
             .addClass('table')
+            .attr('id', 'tabela-vacinas')
         const thead = this.makeThead(['Nome', 'Quantidade', '', ''])
         const tbody = this.makeTbody()
         table.append(thead, tbody)
-    
-        return table
+        tableContainer.append(table)
+        return tableContainer
     }
 
     makeThead(headers){
