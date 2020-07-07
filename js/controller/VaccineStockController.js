@@ -2,7 +2,7 @@ class VaccineStockController{
     constructor(){
         this.service = new VaccineLotAPIService() 
         this.vaccineService = new VaccineAPIService() 
-        this.stockView = new VaccineStockView(this.addLotCallback.bind(this), this.editLot.bind(this))
+        this.stockView = new VaccineStockView(this.addLotCallback.bind(this), this.editLot.bind(this), this.deleteLot.bind(this))
         this.formView = new VaccineLotRegisterView(this.submitLot.bind(this))
     }
 
@@ -86,8 +86,27 @@ class VaccineStockController{
     }
 
     editLot(lot){
-        console.log(lot)
         this.formView.vaccineLot = lot
         this.loadForm()
+    }
+
+    deleteLot(lot){
+        this.formView.vaccineLot = lot
+        new ModalConfirmView('Confirme', 'Deseja confirmar a exclusão do lote?', this.deleteRequest.bind(this)).modal.modal()
+    }
+
+    deleteRequest(){
+        const lot = this.formView.vaccineLot
+        const success = resp =>{
+            this.loadLots()
+        }
+        const error = error =>{
+            const errorController = new ErrorController(error);
+            errorController.showError()
+        }
+
+        this.service.deleteVaccineLot(lot.id, success, error)
+        $('.modal').modal('hide')
+        new ToastView("Vacina excluída com sucesso").render()
     }
 }

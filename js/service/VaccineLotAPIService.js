@@ -60,4 +60,21 @@ class VaccineLotAPIService{
 
         xhttp.send(JSON.stringify(data));
     }
+
+    deleteVaccineLot(id, ok, error){
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+            if (this.readyState === 4) {
+                if(this.status === 200) {
+                    ok(JSON.parse(this.responseText));
+                }
+
+                else {
+                    erro(JSON.parse(this.responseText));
+                }
+            }
+        };
+        xhttp.open("DELETE", this.uri + `/${id}` , true);
+        xhttp.send();
+    }
 }

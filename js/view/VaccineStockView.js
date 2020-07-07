@@ -1,9 +1,10 @@
 class VaccineStockView{
-    constructor(addButtonCallback, editLotCallback, lotesVacina = []){
+    constructor(addButtonCallback, editLotCallback, deleteLotCallback, lotesVacina = []){
         this.addButtonCallback = addButtonCallback
         this.editLotCallback = editLotCallback
+        this.deleteLotCallback = deleteLotCallback
         this.lotesVacina = lotesVacina
-        this.headers = ["Vacina", "Lote", "Validade", "Quantidade Lote", "Quantidade Vacina"]
+        this.headers = ["Vacina", "Lote", "Validade", "Quantidade Lote", "Quantidade Vacina", "", ""]
     }
 
     render(){
@@ -55,6 +56,9 @@ class VaccineStockView{
         this.headers.forEach(header => {
             const th = $('<th>')
                 .text(header)
+            if (header == ""){
+                th.attr('data-orderable', 'false')
+            }
 
             theadRow.append(th)            
         })
@@ -68,20 +72,51 @@ class VaccineStockView{
             .text(lot.vaccine.name)
         const lot_td = $('<td>')
             .text(lot.lotNumber)
+            .addClass('text-center')
         const expDate_td = $('<td>')
             .text(this.dateToStr(lot.expDate))
+            .addClass('text-center')
         const lotInStock_td = $('<td>')
             .text(lot.quantity)
-        const vaccineInStock_id = $('<td>')
+            .addClass('text-center')
+        const vaccineInStock_td = $('<td>')
             .text(lot.vaccine.quantityInStock)
-        tr.append(vaccine_td, lot_td, expDate_td, lotInStock_td, vaccineInStock_id)
+            .addClass('text-center')
+        const edit_td = this.makeEditTd(lot)
+        const delete_td = this.makeDeleteTd(lot)
+
+        tr.append(vaccine_td, lot_td, expDate_td, lotInStock_td, vaccineInStock_td, edit_td, delete_td)
         
-        //SETTING UP EDITING EVENT
-        tr.on('dblclick',e => {
-            console.log(this)
-            this.editLotCallback(lot)
-        })
         return tr
+    }
+
+    makeEditTd(lot){
+        const editTd = $('<td>')
+            .addClass('text-center')
+
+        const editButton = $('<button>')
+            .addClass('btn btn-info mx-2')
+            .click(e=>this.editLotCallback(lot))
+
+        const editIcon = $('<i>')
+            .addClass('fas fa-edit')
+        editButton.append(editIcon) 
+        editTd.append(editButton)
+        return editTd
+    }
+
+    makeDeleteTd(lot){
+        const deleteTd = $('<td>')
+            .addClass('text-center')
+        const deleteButton = $('<button>')
+            .addClass('btn btn-light mx-2')
+            .click(e=>this.deleteLotCallback(lot))
+        const deleteIcon = $('<i>')
+            .addClass('fas fa-trash-alt')
+        
+        deleteButton.append(deleteIcon)
+        deleteTd.append(deleteButton)       
+        return deleteTd
     }
 
     get dataTableOptions(){

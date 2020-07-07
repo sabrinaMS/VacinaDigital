@@ -71,7 +71,7 @@ class ToastView{
         const toastContainer = $('<div>')
             .addClass('toastContainer')
             .attr({'aria-live':'polite', 'aria-atomic':'true'})
-            .css({'position': 'absolute', 'height': '100vh', 'width': '100vw', 'bottom':'0', 'right':'0', "z-index":"-999"})
+            .css({'min-height': '200px'})
         
         const toast = this.makeToast()
         toastContainer.append(toast)
