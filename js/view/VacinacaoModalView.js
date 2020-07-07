@@ -2,6 +2,7 @@ class VacinacaoModalView{
     constructor(vacinacao, paciente){
         this.vacinacao = vacinacao
         this.paciente = paciente
+        this.title = "Detalhes da Vacinação"
     }
     render(){
         const modal = $('<div>')
@@ -17,18 +18,14 @@ class VacinacaoModalView{
             .addClass('modal-dialog modal-lg')
         
         const modalContent = $('<div>')
-            .addClass('modal-content p-5')
+            .addClass('modal-content')
 
-        //     <div class="modal-header">
-        //     <h5 class="modal-title" id="exampleModalLabel">New message</h5>
-        //     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-        //       <span aria-hidden="true">&times;</span>
-        //     </button>
-        //   </div>
+        const modalHeader = this.makeModalHeader()
+        const modalBody = this.makeModalBody()
+        const modalFooter = this.makemodalFooter()
 
-        const vacinacaoDl = this.makeVacinacaoDl()
         
-        modalContent.append(vacinacaoDl)
+        modalContent.append(modalHeader, modalBody, modalFooter)
         modalDialog.append(modalContent)
         modal.append(modalDialog)
 
@@ -69,5 +66,47 @@ class VacinacaoModalView{
         dl.append(vaccineDt, vaccineDd, lotDt, lotDd, nurseDt, nurseDd, dataDt, dataDd, pacienteDt, pacienteDd)
         return dl
     }
-    
+
+    makeModalHeader(){
+        const header = $('<div>')
+            .addClass('modal-header')
+        
+        const title = $('<h5>')
+            .addClass('modal-title')
+            .attr({'id': 'modaltitulo'})
+            .text(this.title)
+            
+        const closeButton = $('<button>')
+            .addClass('close')
+            .attr({'type': 'button', 'data-dismiss':'modal', 'aria-label':'Close'})
+            .append(
+                $('<span>')
+                    .attr('aria-hidden', true)
+                    .html('&times;')
+            )
+        header.append(title, closeButton)
+        return header;
+    }
+
+    makeModalBody(){
+        const modalBody = $('<div>')
+            .addClass('modal-body')
+            .text(this.text)
+        const vaccinationInfo = this.makeVacinacaoDl()
+        modalBody.append(vaccinationInfo)
+        return modalBody
+    }
+
+    makemodalFooter(){
+        const modalFooter = $('<div>')
+            .addClass('modal-footer')
+
+        const dismissButton = $('<button>')
+                    .addClass('btn btn-secondary')
+                    .attr({'type':'button', 'data-dismiss':'modal'})
+                    .text('Cancelar')
+
+        modalFooter.append(dismissButton)
+        return modalFooter
+    } 
 }

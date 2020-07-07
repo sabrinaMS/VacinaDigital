@@ -29,7 +29,7 @@ class TabelaPacientes {
                     <td>${pacientes[i].name}</td>
                     <td>${pacientes[i].email}</td>
                     <td><button type="button" class="btn btn-light edit">Editar</button></td>
-                    <td>${pacientes[i].vaccineShots.length > 0 ? '<button type="button" class="btn btn-info cardVacina">Cartão de Vacina</button>' : 'Paciente sem Vacinas'} </td>
+                    <td><button type="button" class="btn btn-info cardVacina">Cartão de Vacina</button></td>
                     <td><button type="button" class="btn btn btn-light" data-toggle="modal" data-target="#exampleModal${pacientes[i].id}">Excluir</button></td>   
                 </tr>
 
