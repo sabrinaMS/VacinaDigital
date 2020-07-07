@@ -24,12 +24,16 @@ class NavbarController{
                 }
             },
             {
-                text:"Cadastrar Paciente",
+                text:"Pacientes",
                 clickHandler: e =>{
                     this.makeLinkActive(1)
-                    const controller = new PacienteController()
-                    controller.inicializa()
-                    $('.collapse').collapse('hide')
+                    if (localStorage.getItem("token")){
+                        const controller = new PacienteController()
+                        controller.inicializa()
+                        $('.collapse').collapse('hide')
+                    } else {
+                        location.reload();
+                    }
                 }
             },
             {
@@ -48,6 +52,15 @@ class NavbarController{
                     this.makeLinkActive(3);
                     const vaccineController = new VaccineController();
                     vaccineController.loadVaccines();
+                    $('.collapse').collapse('hide')
+                }
+            },
+            {
+                text: "Logout",
+                clickHandler: e=>{
+                    this.makeLinkActive(4);
+                    localStorage.removeItem("token");
+                    location.reload();
                     $('.collapse').collapse('hide')
                 }
             }

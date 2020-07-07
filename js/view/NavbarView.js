@@ -31,8 +31,10 @@ class NavbarView{
             .addClass('navbar-nav mr-auto')
 
         this.paginas.forEach(item => {
+            if (item.text != "Logout" || localStorage.getItem("token")){
             const item_li = this.makeLink(item)
             links_ul.append(item_li)
+        }
         })
         return links_ul
     }

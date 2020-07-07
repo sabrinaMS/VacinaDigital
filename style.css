@@ -6,7 +6,7 @@
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
     border-radius: 20px;
     background-color: #D5E7FC;
-    padding: 20px;
+    padding: 10px;
 }
 
 .vaccine-card-button{
@@ -23,6 +23,7 @@
 }
 
 .vaccine-card h5{
+    font-size: 16px;
     color: #5E5E5E;
 }
 

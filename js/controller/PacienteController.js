@@ -66,7 +66,6 @@ class PacienteController{
         
         this.spinnerView.render()
         this.pacienteService.enviarPaciente(paciente, sucesso, trataErro);    
-
     }
 
     deletarPaciente(id, event){
