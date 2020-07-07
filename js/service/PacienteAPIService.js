@@ -56,7 +56,7 @@ class PacienteAPIService {
                     ok(JSON.parse(this.responseText));
                 }
                 else {
-                    erro(this.status);
+                    erro(JSON.parse(this.responseText));
                 }
             }
         };

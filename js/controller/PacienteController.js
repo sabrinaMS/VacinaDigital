@@ -56,15 +56,15 @@ class PacienteController{
 
         const sucesso = function(pacienteCriado) {
             console.log("Paciente Criado",pacienteCriado);
+            self.spinnerView.render();
             self.carregarPacientes();
             self.formPacientes.limparFormulario();
         }
 
-        const trataErro = function(statusCode) {
-            console.log("Erro:",statusCode);
+        const trataErro = function(error) {
+            $('form').prepend($('<text>').addClass('text-center text-danger').text(error.message))
         }
         
-        this.spinnerView.render()
         this.pacienteService.enviarPaciente(paciente, sucesso, trataErro);    
     }
 

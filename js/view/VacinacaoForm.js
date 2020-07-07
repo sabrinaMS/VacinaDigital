@@ -67,7 +67,7 @@ class VacinacaoForm{
             .addClass('form-group')
         const nurseLabel = $('<label>')
             .attr('for', 'nurse_id')
-            .text('Enfermeira:')
+            .text('Aplicado por:')
         const lotSelect = $('<select>')
             .addClass('form-control')
             .attr({
