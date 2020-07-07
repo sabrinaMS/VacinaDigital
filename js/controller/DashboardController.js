@@ -1,7 +1,7 @@
 class DashboardController{
     constructor(){
         this.service = new DashboardAPIService()
-        this.view = new DashboardView(this.verEstoqueCallback, this.verPacientesCallback)
+        this.view = new DashboardView(this.verEstoqueCallback, this.verPacientesCallback, this.verVacinasCallback)
         this.spinnerView = new SpinnerView()
     }
     loadDashboard(){
@@ -38,5 +38,15 @@ class DashboardController{
         
         const controller = new VaccineStockController()
         controller.loadLots()
+    }
+
+    verVacinasCallback(e){
+        e.preventDefault()
+        $('.nav-item')
+            .removeClass('active')
+            .eq(3).addClass('active')
+        
+        const controller = new VaccineController()
+        controller.loadVaccines()
     }
 }

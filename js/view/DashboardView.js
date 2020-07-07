@@ -1,7 +1,8 @@
 class DashboardView{
-    constructor(patientCallback, stockCallback, info = null){
+    constructor(stockCallback, patientCallback, vaccinesCallback, info = null){
         this.patientCallback = patientCallback
         this.stockCallback = stockCallback
+        this.vaccinesCallback = vaccinesCallback
         this.info = info
     }
     
@@ -100,8 +101,8 @@ class DashboardView{
                 legend: 'Vacinas esgotadas',
                 value: this.info.vaccines_outofstock,
                 borderColor: '#dc3545',
-                callback: this.stockCallback,
-                actionText: 'Ver estoque'
+                callback: this.vaccinesCallback,
+                actionText: 'Ver vacinas'
             },
             {
                 legend: 'Doses em estoque',

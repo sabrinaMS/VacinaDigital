@@ -9,6 +9,8 @@ class VaccineView{
     render(){
         const container = this.makeContainer()
         $('main').empty().append(container)
+        $('table').DataTable(this.dataTableOptions)
+        this.bootstrapDatatable()
     }
 
     makeTable(){
@@ -17,8 +19,7 @@ class VaccineView{
         const thead = this.makeThead(['Nome', 'Quantidade', '', ''])
         const tbody = this.makeTbody()
         table.append(thead, tbody)
-        table.DataTable(this.dataTableOptions)
-        this.bootstrapDatatable()
+    
         return table
     }
 
