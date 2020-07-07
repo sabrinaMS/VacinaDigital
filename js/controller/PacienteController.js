@@ -1,9 +1,14 @@
 class PacienteController{  
     constructor() {
         this.pacienteService = new PacienteAPIService(); 
+        this.enfermeirosService = new NurseAPIService();
+        this.lotesService = new VaccineLotAPIService();
         this.tabelaPacientes = new TabelaPacientes(this,"main");
         this.formPacientes = new FormPacientes(this,"main");
-        this.cardsPacientes = new CardsPacientes(this, "main");
+        this.cardsPacientes = new CardsPacientes(this, "main", this.cadastrarVacinacaoCallback.bind(this));
+        this.vacinacaoForm = new VacinacaoForm(this.carregarEnfermeiros.bind(this), this.carregarLotes.bind(this), this.enviarFormVacinacao.bind(this))
+        this.spinnerView = new SpinnerView()
+        this.vaccineShotService = new VaccineShotAPIService()
     } 
 
     inicializa(){
@@ -27,8 +32,7 @@ class PacienteController{
             console.log("Erro:",statusCode);
         }
         
-        const spinner = new SpinnerView()
-        spinner.render()
+        self.spinnerView.render()
         this.pacienteService.buscarPacientes(sucesso, trataErro);
     }
 
@@ -59,7 +63,8 @@ class PacienteController{
         const trataErro = function(statusCode) {
             console.log("Erro:",statusCode);
         }
-                
+        
+        this.spinnerView.render()
         this.pacienteService.enviarPaciente(paciente, sucesso, trataErro);    
 
     }
@@ -89,20 +94,25 @@ class PacienteController{
             console.log(status);
         }
 
+        this.spinnerView.render()
         this.pacienteService.buscarPaciente(id,ok,erro);   
     }
 
     carregaCardsPaciente(id, event){
-        event.preventDefault();             
+        if (event != null){
+            event.preventDefault();             
+        }
         
         const self = this;
         const ok = function(paciente){
-            self.cardsPacientes.montarCard(paciente);
+            self.cardsPacientes.paciente = paciente
+            self.cardsPacientes.render();
         }
         const erro = function(status){
             console.log(status);
         }
 
+        this.spinnerView.render()
         this.pacienteService.buscarPaciente(id,ok,erro);   
     }
 
@@ -133,5 +143,34 @@ class PacienteController{
                 console.log(status);
             } 
         );
-    }  
+    } 
+    
+    cadastrarVacinacaoCallback(paciente){
+        this.vacinacaoForm.paciente = paciente
+        this.vacinacaoForm.render()
+    }
+
+    carregarEnfermeiros(ok, erro){ //será chamado na view do cadastro para pegar as options do select de enfermeiros
+        this.enfermeirosService.buscarEnfermeiros(ok,erro)
+    }
+
+    carregarLotes(ok,erro){
+        this.lotesService.searchVaccineLots(ok, erro)
+    }
+
+    enviarFormVacinacao(e){
+        e.preventDefault()
+        const data = this.vacinacaoForm.formValues
+
+        const success = shot => {
+            new ToastView("Vacinação aplicada com sucesso").render()
+            this.carregaCardsPaciente(shot.patient.id, null)
+        }
+
+        const error = error =>{
+            new ErrorView(error.status, error.message).show()
+        }
+
+        this.vaccineShotService.insertShot(data, success, error)
+    }
 }

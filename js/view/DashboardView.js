@@ -21,7 +21,7 @@ class DashboardView{
     
     makeCardsRow(){
         const cardsRow = $('<div>')
-            .addClass('row')
+            .addClass('row align-items-stretch')
         this.cardsData.forEach(card => {
             const cardContainer = this.makeCard(card)
             cardsRow.append(cardContainer)
@@ -32,13 +32,13 @@ class DashboardView{
     
     makeCard(data){
         let cardContainer = $('<div>')
-                .addClass('col-12 col-sm-12 col-md-6 col-lg-4')
+                .addClass('col-12 col-sm-12 col-md-6 col-lg-4 d-flex')
 
         let cardElement = $('<div>')
-            .addClass('card m-3')
+            .addClass('card m-3 align-items-stretch w-100')
 
         let cardBody = $('<div>')
-            .addClass('card-body')
+            .addClass('card-body row align-items-center justify-content-center')
         
         let valueContainer = $("<div>")
             .addClass('mx-auto d-flex justify-content-center align-items-center')
@@ -54,11 +54,11 @@ class DashboardView{
             
         
         let cardLegend = $('<p>')
-            .addClass('card-text text-center mt-3')
+            .addClass('card-text text-center mt-3 col-12')
             .text(data.legend) 
         
         let cardLink = $('<a>')
-            .addClass('d-block text-center my-2')
+            .addClass('d-block text-center my-2 col-12')
             .attr('href', '#')
             .text(data.actionText)
             .click(data.callback)

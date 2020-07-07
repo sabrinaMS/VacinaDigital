@@ -96,7 +96,7 @@ class VaccineStockView{
 
         const editButton = $('<button>')
             .addClass('btn btn-info mx-2')
-            .click(e=>this.editLotCallback(lot))
+            .click(e=>{this.editLotCallback(lot)})
 
         const editIcon = $('<i>')
             .addClass('fas fa-edit')
@@ -110,7 +110,7 @@ class VaccineStockView{
             .addClass('text-center')
         const deleteButton = $('<button>')
             .addClass('btn btn-light mx-2')
-            .click(e=>this.deleteLotCallback(lot))
+            .click(e=>{this.deleteLotCallback(lot)})
         const deleteIcon = $('<i>')
             .addClass('fas fa-trash-alt')
         

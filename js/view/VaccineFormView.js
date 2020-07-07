@@ -1,8 +1,7 @@
 class VaccineFormView{
-    constructor(){
+    constructor(submitCallback, vaccine){
+        this.submitCallback = submitCallback
         this.vaccine = null
-        this.submitCallback = null
-        this.form = null
         this.title = 'Cadastrar Vacina'
     }
 
@@ -11,11 +10,12 @@ class VaccineFormView{
         const title = $('<h3>')
             .text(this.title);
         
-        const form = this.makeForm()
+        this.form = this.makeForm()
 
-        container.append(title, form)
+        container.append(title, this.form)
         $('main').empty().append(container)
 
+        console.log(this.vaccine)
         if (this.vaccine != null){
             this.carregarForm()
         }
@@ -59,14 +59,16 @@ class VaccineFormView{
     }
 
     carregarForm(){
-        const form = document.querySelector('form');
-        form.nome.value = this.vaccine.name;
+        this.form.get(0).nome.value = this.vaccine.name;
     }
 
     get formVaules(){
-        const form = document.querySelector('form');
-        return {
-            "name" : form.nome.value
+        let data = {
+            "name" : this.form.get(0).nome.value
         }
+        if (this.vaccine != null){
+            data.id = this.vaccine.id
+        }
+        return data
     }
 }

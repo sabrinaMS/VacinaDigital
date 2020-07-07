@@ -92,7 +92,7 @@ class VaccineStockController{
 
     deleteLot(lot){
         this.formView.vaccineLot = lot
-        new ModalConfirmView('Confirme', 'Deseja confirmar a exclusão do lote?', this.deleteRequest.bind(this)).modal.modal()
+        new ModalConfirmView('Confirme', 'Deseja confirmar a exclusão do lote?', this.deleteRequest.bind(this), 'Excluir').modal.modal()
     }
 
     deleteRequest(){
@@ -107,6 +107,6 @@ class VaccineStockController{
 
         this.service.deleteVaccineLot(lot.id, success, error)
         $('.modal').modal('hide')
-        new ToastView("Vacina excluída com sucesso").render()
+        new ToastView("Lote excluído com sucesso").render()
     }
 }

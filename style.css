@@ -5,9 +5,21 @@
 .vaccine-card {
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
     border-radius: 20px;
-    height: 90px;
     background-color: #D5E7FC;
     padding: 20px;
+}
+
+.vaccine-card-button{
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    border-radius: 20px;
+    background-color: #fcd5fa;
+    padding: 20px;
+    border: none;
+    width: 100%;
+    height: 100%;
+    color: #5E5E5E;
+    font-weight: bolder;
+    font-size: 1.25em;
 }
 
 .vaccine-card h5{

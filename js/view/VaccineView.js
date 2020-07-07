@@ -1,22 +1,24 @@
 class VaccineView{
-    constructor(){
+    constructor(addButtonCallback, editButtonCallback, deleteButtonCallback, vaccines = []){
         this.title = "Vacinas"
-        this.addButtonCallback = null
+        this.addButtonCallback = addButtonCallback
+        this.editButtonCallback = editButtonCallback
+        this.deleteButtonCallback = deleteButtonCallback
+        this.vaccines = vaccines
     }
-    render(vaccines){
-        this.vaccinesInStock = vaccines.filter(vaccines => vaccines.quantityInStock > 0);
-        this.vaccinesOutOfStock = vaccines.filter(vaccines => vaccines.quantityInStock == 0);
-        console.log(this.vaccinesInStock)
+    render(){
         const container = this.makeContainer()
         $('main').empty().append(container)
     }
 
-    makeTable(vaccines){
+    makeTable(){
         const table = $('<table>')
             .addClass('table')
-        const thead = this.makeThead(['Nome', 'Quantidade'])
-        const tbody = this.makeTbody(vaccines)
+        const thead = this.makeThead(['Nome', 'Quantidade', '', ''])
+        const tbody = this.makeTbody()
         table.append(thead, tbody)
+        table.DataTable(this.dataTableOptions)
+        this.bootstrapDatatable()
         return table
     }
 
@@ -25,43 +27,40 @@ class VaccineView{
             .addClass('thead-dark');
         const row = $('<tr>');
         headers.forEach(header => {
-            let th = $('<th>')
+            const th = $('<th>')
+                .addClass('text-center')
                 .text(header);
+
+            if (header == ''){
+                th.attr('data-orderable', 'false')
+            }
             row.append(th);
         });
         thead.append(row);
         return thead
     }
 
-    makeTbody(vaccines){
+    makeTbody(){
         const tBody = $('<tbody>');
-        vaccines.forEach(vaccine =>{
+        this.vaccines.forEach(vaccine =>{
             const tr = $('<tr>');
             const nameTd = $('<td>')
                 .text(vaccine.name);
             const quantityTd = $('<td>')
                 .addClass('text-center')
                 .text(vaccine.quantityInStock);
-            
-            tr.append(nameTd, quantityTd);
+            const editTd = this.makeEditTd(vaccine);
+            const deleteTd = this.makeDeleteTd(vaccine);
+            tr.append(nameTd, quantityTd, editTd, deleteTd);
             tBody.append(tr);
         })
         return tBody
     }
 
-    makeTableColumn(table, title){
-        const tableCol = $('<div>')
-            .addClass('col-12 col-sm-12 col-lg-6');
-        const columnTitle = $('<h5>')
-            .text(title);
-        tableCol.append(columnTitle, table)
-        return tableCol
-    }
-
     makeContainer(){
         const container = $('<div>');
         const headerRow = $('<div>')
-            .addClass('d-flex justify-content-between');
+            .addClass('d-flex justify-content-between mb-5');
 
         const title = $('<h3>')
             .addClass('')
@@ -73,18 +72,86 @@ class VaccineView{
             .click(this.addButtonCallback)
         
         headerRow.append(title, addVaccineButton)
-        
-        const tablesRow = $('<div>')
-            .addClass('row mt-5');
 
-        const inStockTable = this.makeTable(this.vaccinesInStock);
-        const outOfStockTable = this.makeTable(this.vaccinesOutOfStock);
+        const vaccinesTable = this.makeTable();
         
-        const inStockColumn = this.makeTableColumn(inStockTable, "Vacinas Disponíveis")
-        const outOfStockColumn = this.makeTableColumn(outOfStockTable, "Vacinas Indisponíveis")
 
-        tablesRow.append(inStockColumn, outOfStockColumn)
-        container.append(headerRow, tablesRow)
+        container.append(headerRow, vaccinesTable)
         return container
     }
+
+    makeEditTd(vaccine){
+        const editTd = $('<td>')
+            .addClass('text-center')
+
+        const editButton = $('<button>')
+            .addClass('btn btn-info mx-2')
+            .click(e=>{this.editButtonCallback(vaccine)})
+
+        const editIcon = $('<i>')
+            .addClass('fas fa-edit')
+        editButton.append(editIcon) 
+        editTd.append(editButton)
+        return editTd
+    }
+
+    makeDeleteTd(vaccine){
+        const deleteTd = $('<td>')
+            .addClass('text-center')
+        const deleteButton = $('<button>')
+            .addClass('btn btn-light mx-2')
+            .click(e=>{this.deleteButtonCallback(vaccine)})
+        const deleteIcon = $('<i>')
+            .addClass('fas fa-trash-alt')
+        
+        deleteButton.append(deleteIcon)
+        deleteTd.append(deleteButton)       
+        return deleteTd
+    }
+
+    get dataTableOptions(){
+        return {  
+            order: [1, 'desc'],
+            pageLength: 50, 
+            language: {
+                "sEmptyTable": "Nenhum registro encontrado",
+                "sInfo": "Mostrando de _START_ até _END_ de _TOTAL_ registros",
+                "sInfoEmpty": "Mostrando 0 até 0 de 0 registros",
+                "sInfoFiltered": "(Filtrados de _MAX_ registros)",
+                "sInfoPostFix": "",
+                "sInfoThousands": ".",
+                "sLengthMenu": "_MENU_ resultados por página",
+                "sLoadingRecords": "Carregando...",
+                "sProcessing": "Processando...",
+                "sZeroRecords": "Nenhum registro encontrado",
+                "sSearch": "<i class='fas fa-search pr-1'></i>Pesquisar",
+                "oPaginate": {
+                    "sNext": "Próximo",
+                    "sPrevious": "Anterior",
+                    "sFirst": "Primeiro",
+                    "sLast": "Último"
+                },
+                "oAria": {
+                    "sSortAscending": ": Ordenar colunas de forma ascendente",
+                    "sSortDescending": ": Ordenar colunas de forma descendente"
+                },
+                "select": {
+                    "rows": {
+                        "_": "Selecionado %d linhas",
+                        "0": "Nenhuma linha selecionada",
+                        "1": "Selecionado 1 linha"
+                    }
+                }
+            }
+        }
+    }
+
+    bootstrapDatatable(){
+        $('.dataTables_filter input').addClass('form-control d-inline w-50')
+        $('.dataTables_length select').addClass('form-control d-inline w-25').css('min-width', '5em')
+        $('.paginate_button.current').removeClass().addClass('btn btn-light active')
+        $('.paginate_button').removeClass().addClass('btn btn-light')
+
+    }
+
 }

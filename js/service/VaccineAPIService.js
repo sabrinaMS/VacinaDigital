@@ -44,4 +44,39 @@ class VaccineAPIService {
 
         xhttp.send(JSON.stringify(data));
     }
+
+    updateVaccine(vaccine, ok, error){
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+            if (this.readyState === 4) {
+                if(this.status === 200) {
+                    ok(JSON.parse(this.responseText));
+                }
+                else {
+                    error(JSON.parse(this.responseText));
+                }
+            }
+        };
+        xhttp.open("PUT", this.uri + `/${vaccine.id}` , true);
+        xhttp.setRequestHeader("Content-Type","application/json");
+        xhttp.setRequestHeader('Authorization', this.jwtoken);
+        xhttp.send(JSON.stringify(vaccine));
+    }
+
+    deleteVaccine(id, ok, error){
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+            if (this.readyState === 4) {
+                if(this.status === 200) {
+                    ok(JSON.parse(this.responseText));
+                }
+
+                else {
+                    error(JSON.parse(this.responseText));
+                }
+            }
+        };
+        xhttp.open("DELETE", this.uri + `/${id}` , true);
+        xhttp.send();
+    }
 }
